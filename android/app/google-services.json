@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "400921458015",
+    "project_id": "snackads-b36c2",
+    "storage_bucket": "snackads-b36c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400921458015:android:ca76929cf4a134186f32ea",
+        "android_client_info": {
+          "package_name": "com.example.snack_ads"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtB4TLAbQFg-oLQCb7jLALatHVDYlRLg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
