@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:developer' as dev;
 
@@ -16,12 +15,12 @@ class AuthenticationController with ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((User? user) {
       _user = user;
       if (_user != null) {
-        dev.log("User is signed in", name: 'AuthenticationController');
+        dev.log("User Logged In", name: 'AuthenticationController');
         if (isUserLoggedIn != null) {
           isUserLoggedIn!();
         }
       } else {
-        dev.log("User is signed out", name: 'AuthenticationController');
+        dev.log("User Logged Out", name: 'AuthenticationController');
       }
       notifyListeners(); // 상태 변화를 알립니다.
     });
@@ -54,7 +53,6 @@ class AuthenticationController with ChangeNotifier {
 
   // 로그아웃
   Future<void> signOut() async {
-    dev.log("LogOut", name: 'AuthenticationController');
     await _auth.signOut();
     if (isUserLoggedOut != null) {
       isUserLoggedOut!();
