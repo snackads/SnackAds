@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snack_ads/view/auth/login_view.dart';
+import 'package:snack_ads/view/main_view.dart';
+import 'package:snack_ads/view/profile_view.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -25,6 +27,14 @@ final _router = GoRouter(
     GoRoute(
       path: '/login',
       builder: (context, state) => const LoginView(),
+    ),
+    GoRoute(
+      path: '/main',
+      builder: (context, state) => MainView(),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfileView(),
     ),
   ],
 );

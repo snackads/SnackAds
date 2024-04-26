@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:snack_ads/view/app.dart';
+import 'package:snack_ads/app.dart';
 import 'controller/authentication_controller.dart';
+import 'controller/bottom_navigation_controller.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -16,6 +17,8 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthenticationController()),
+        ChangeNotifierProvider(
+            create: (context) => BottomNavigationController()),
       ],
       builder: ((context, child) => const App()),
     ),
