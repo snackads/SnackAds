@@ -45,6 +45,7 @@ class AuthenticationController with ChangeNotifier {
             await _auth.signInWithCredential(credential);
 
         _user = userCredential.user;
+        dev.log(userCredential.user.toString(), name: 'Logged In User Info');
       }
     } catch (e) {
       dev.log(e.toString(), name: 'AuthenticationController.signInWithGoogle');
