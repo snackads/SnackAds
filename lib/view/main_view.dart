@@ -55,7 +55,7 @@ class MainView extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           backgroundColor: Colors.black,
-          icon: Icon(FontAwesomeIcons.user),
+          icon: Icon(FontAwesomeIcons.solidUser),
           label: 'Profile',
         ),
       ],
