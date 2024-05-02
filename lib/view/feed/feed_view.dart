@@ -22,7 +22,6 @@ class _FeedViewState extends State<FeedView> {
   @override
   void initState() {
     widget.feedProvider.loadVideos();
-    print('222222222wowowowowowowowowowowowowowowowow');
 
     super.initState();
   }
@@ -47,15 +46,17 @@ class _FeedViewState extends State<FeedView> {
         color: Colors.black,
         child: (widget.feedProvider.videoList.isNotEmpty)
             ? feedScreen(widget.feedProvider)
-            : Stack(
-                children: [
-                  Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
+            : SafeArea(
+                child: Stack(
+                  children: [
+                    const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  buttonUI(temp),
-                ],
+                    buttonUI(temp),
+                  ],
+                ),
               ),
       ),
     );

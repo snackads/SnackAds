@@ -13,7 +13,6 @@ class FeedController extends ChangeNotifier {
   // }
 
   void loadVideos() async {
-    print('wowowowowowowowowowowowowowowowow');
     try {
       List<ShortForm> newVideoList = await getVideoList();
       videoList.clear();
