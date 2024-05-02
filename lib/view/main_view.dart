@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/bottom_navigation_controller.dart';
+import 'package:snack_ads/controller/feed_controller.dart';
+import 'package:snack_ads/view/feed/feed_view.dart';
 import 'package:snack_ads/view/profile_view.dart';
 
 class MainView extends StatelessWidget {
@@ -14,7 +16,10 @@ class MainView extends StatelessWidget {
   Widget _navigationBody() {
     switch (_bottomNavigationController.tabIndex) {
       case 0:
-        return Container(color: Colors.red);
+        return MultiProvider(
+          providers: [Provider(create: (_) => FeedController())],
+          child: const FeedView(),
+        );
       case 1:
         return Container(color: Colors.green);
       case 2:
