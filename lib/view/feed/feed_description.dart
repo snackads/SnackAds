@@ -34,17 +34,15 @@ class FeedDescription extends StatelessWidget {
                     padding: const EdgeInsets.all(3),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(1000),
-                      child: Container(
-                        color: Colors.blue,
-                      ),
+                      //  TODO: 가게 이미지로 추후에 수정
+                      child: Image.asset('assets/images/logo.png'),
                     ),
                   ),
                 ),
                 const SizedBox(
                   width: 15,
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                Expanded(
                   child: Text(
                     videoRestaurantName,
                     overflow: TextOverflow.ellipsis,
@@ -60,19 +58,14 @@ class FeedDescription extends StatelessWidget {
             const SizedBox(
               height: 7,
             ),
-            SizedBox(
-              child: Text(
-                videoDescription,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
+            Text(
+              videoDescription,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
               ),
-            ),
-            const SizedBox(
-              height: 7,
             ),
           ],
         ),
