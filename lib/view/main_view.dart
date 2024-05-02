@@ -12,14 +12,12 @@ class MainView extends StatelessWidget {
   MainView({super.key});
 
   late BottomNavigationController _bottomNavigationController;
+  late FeedController _feedProvider;
 
   Widget _navigationBody() {
     switch (_bottomNavigationController.tabIndex) {
       case 0:
-        return MultiProvider(
-          providers: [Provider(create: (_) => FeedController())],
-          child: const FeedView(),
-        );
+        return FeedView(feedProvider: _feedProvider);
       case 1:
         return Container(color: Colors.green);
       case 2:
@@ -71,6 +69,7 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     _bottomNavigationController =
         Provider.of<BottomNavigationController>(context);
+    _feedProvider = Provider.of<FeedController>(context);
 
     return Scaffold(
       body: _navigationBody(),

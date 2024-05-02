@@ -1,15 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class FeedDescription extends StatelessWidget {
-  const FeedDescription({super.key});
+  final String videoRestaurantName;
+  final String videoDescription;
+  const FeedDescription(
+      {super.key,
+      required this.videoRestaurantName,
+      required this.videoDescription});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: 120.0,
+        height: 150,
         padding: const EdgeInsets.only(left: 20.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -17,6 +20,7 @@ class FeedDescription extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 10.0),
@@ -39,23 +43,32 @@ class FeedDescription extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                const Text(
-                  '식당 이름',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: Text(
+                    videoRestaurantName,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
             const SizedBox(
               height: 7,
             ),
-            const Text(
-              '영상 제목',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
+            SizedBox(
+              child: Text(
+                videoDescription,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
               ),
             ),
             const SizedBox(

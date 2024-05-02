@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FeedButtons extends StatelessWidget {
-  const FeedButtons({super.key});
+  final int likes;
+  const FeedButtons({super.key, required this.likes});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class FeedButtons extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           //  like
-          buttonDesign('좋아요', FontAwesomeIcons.heart),
+          buttonDesign(numOfLikes(likes), FontAwesomeIcons.heart),
           //  comments
           buttonDesign('댓글', FontAwesomeIcons.comment),
           //  share
@@ -29,17 +30,32 @@ class FeedButtons extends StatelessWidget {
         children: [
           Icon(icon, size: 25, color: Colors.grey[300]),
           Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(top: 8, left: 20, right: 20),
             child: Text(
               title,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
               style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14),
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  String numOfLikes(int likes) {
+    if (likes >= 1000000000) {
+      return '${likes ~/ 1000000000}B';
+    } else if (likes >= 1000000) {
+      return '${likes ~/ 1000000}M';
+    } else if (likes >= 1000) {
+      return '${likes ~/ 1000}k';
+    } else {
+      return likes.toString();
+    }
   }
 }
