@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
 import 'package:snack_ads/model/shortform.dart';
+import 'package:snack_ads/view/feed/feed_button_design.dart';
 import 'package:snack_ads/view/feed/feed_buttons.dart';
 import 'package:snack_ads/view/feed/feed_description.dart';
 import 'package:video_player/video_player.dart';
@@ -93,24 +95,34 @@ Widget videoScreen(ShortForm video) {
                   child: Text("Loading"),
                 ),
               ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                FeedDescription(
-                  videoRestaurantName: video.name,
-                  videoDescription: video.description,
-                ),
-                FeedButtons(
-                  likes: video.likes,
-                ),
-              ],
-            ),
-            const SizedBox(height: 40)
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  //  report
+                  buttonDesign(
+                      '    ', FontAwesomeIcons.ellipsisVertical, () {}),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  FeedDescription(
+                    videoRestaurantName: video.name,
+                    videoDescription: video.description,
+                  ),
+                  FeedButtons(
+                    likes: video.likes,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     ),

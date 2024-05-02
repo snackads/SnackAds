@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:snack_ads/view/feed/feed_button_design.dart';
 
 class FeedButtons extends StatelessWidget {
   final int likes;
@@ -7,43 +8,17 @@ class FeedButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          //  like
-          buttonDesign(numOfLikes(likes), FontAwesomeIcons.heart),
-          //  comments
-          buttonDesign('댓글', FontAwesomeIcons.comment),
-          //  share
-          buttonDesign('공유', FontAwesomeIcons.share),
-        ],
-      ),
-    );
-  }
-
-  Widget buttonDesign(String title, IconData icon) {
-    return Container(
-      margin: const EdgeInsets.only(top: 15.0),
-      child: Column(
-        children: [
-          Icon(icon, size: 25, color: Colors.grey[300]),
-          Padding(
-            padding: const EdgeInsets.only(top: 8, left: 20, right: 20),
-            child: Text(
-              title,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        //  like
+        buttonDesign(numOfLikes(likes), FontAwesomeIcons.heart, () {}),
+        //  comments
+        buttonDesign('댓글', FontAwesomeIcons.comment, () {}),
+        //  share
+        buttonDesign('공유', FontAwesomeIcons.share, () {}),
+      ],
     );
   }
 
