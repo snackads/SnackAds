@@ -8,13 +8,20 @@ class FeedController extends ChangeNotifier {
   VideoPlayerController? controller;
   int prevVideo = 0;
 
-  FeedController() {
-    loadVideos();
-  }
+  // FeedController() {
+  //   loadVideos();
+  // }
 
   void loadVideos() async {
-    videoList.clear;
-    videoList = await getVideoList();
+    print('wowowowowowowowowowowowowowowowow');
+    try {
+      List<ShortForm> newVideoList = await getVideoList();
+      videoList.clear();
+      videoList.addAll(newVideoList);
+      loadVideoController(0);
+    } catch (e) {
+      videoList.clear();
+    }
   }
 
   Future<List<ShortForm>> getVideoList() async {
@@ -55,5 +62,13 @@ class FeedController extends ChangeNotifier {
       videoList[index].controller?.play();
       notifyListeners();
     }
+  }
+
+  void disposeAllController() {
+    for (var d in videoList) {
+      d.controller?.pause();
+      d.controller?.dispose();
+    }
+    videoList.clear();
   }
 }

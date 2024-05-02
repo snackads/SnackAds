@@ -16,17 +16,20 @@ class FeedView extends StatefulWidget {
 }
 
 class _FeedViewState extends State<FeedView> {
+  ShortForm temp =
+      ShortForm(description: ' ', name: ' ', videoURL: ' ', likes: 0);
+
   @override
   void initState() {
-    widget.feedProvider.loadVideoController(0);
-    widget.feedProvider.loadVideoController(1);
+    widget.feedProvider.loadVideos();
+    print('222222222wowowowowowowowowowowowowowowowow');
 
     super.initState();
   }
 
   @override
   void dispose() {
-    widget.feedProvider.controller?.dispose();
+    widget.feedProvider.disposeAllController();
     super.dispose();
   }
 
@@ -37,21 +40,36 @@ class _FeedViewState extends State<FeedView> {
       body: RefreshIndicator(
         //  TODO: 새로고침시 새로운 영상 불러오기 추가
         onRefresh: () async {
-          widget.feedProvider.loadVideos();
+          // setState(() {
+          //   widget.feedProvider.loadVideos();
+          // });
         },
         color: Colors.black,
-        child: feedScreen(widget.feedProvider),
+        child: (widget.feedProvider.videoList.isNotEmpty)
+            ? feedScreen(widget.feedProvider)
+            : Stack(
+                children: [
+                  Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  ),
+                  buttonUI(temp),
+                ],
+              ),
       ),
     );
   }
 }
 
 Widget feedScreen(FeedController feedProvider) {
+  PageController pageController = PageController(
+    initialPage: 0,
+    viewportFraction: 1,
+  );
+
   return PageView.builder(
-    controller: PageController(
-      initialPage: 0,
-      viewportFraction: 1,
-    ),
+    controller: pageController,
     itemCount: feedProvider.videoList.length,
     scrollDirection: Axis.vertical,
     onPageChanged: (index) {
@@ -92,37 +110,42 @@ Widget videoScreen(ShortForm video) {
             : Container(
                 color: Colors.black,
                 child: const Center(
-                  child: Text("Loading"),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
                 ),
               ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  //  report
-                  buttonDesign(
-                      '    ', FontAwesomeIcons.ellipsisVertical, () {}),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  FeedDescription(
-                    videoRestaurantName: video.name,
-                    videoDescription: video.description,
-                  ),
-                  FeedButtons(
-                    likes: video.likes,
-                  ),
-                ],
-              ),
-            ],
-          ),
+        buttonUI(video),
+      ],
+    ),
+  );
+}
+
+Widget buttonUI(ShortForm video) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            //  report
+            buttonDesign('    ', FontAwesomeIcons.ellipsisVertical, () {}),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            FeedDescription(
+              videoRestaurantName: video.name,
+              videoDescription: video.description,
+            ),
+            FeedButtons(
+              likes: video.likes,
+            ),
+          ],
         ),
       ],
     ),

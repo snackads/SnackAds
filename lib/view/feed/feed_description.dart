@@ -41,7 +41,7 @@ class FeedDescription extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  width: 10,
+                  width: 15,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,
@@ -50,7 +50,7 @@ class FeedDescription extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
