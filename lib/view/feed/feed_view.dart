@@ -15,14 +15,29 @@ class FeedView extends StatefulWidget {
   State<FeedView> createState() => _FeedViewState();
 }
 
-class _FeedViewState extends State<FeedView> {
+class _FeedViewState extends State<FeedView>
+    with SingleTickerProviderStateMixin {
   ShortForm temp =
       ShortForm(description: ' ', name: ' ', videoURL: ' ', likes: 0);
+
+  bool _isVisible = false;
+
+  void _togglePlayAndPauseVisibility() {
+    setState(() {
+      _isVisible = !_isVisible;
+      if (_isVisible) {
+        Future.delayed(const Duration(milliseconds: 750), () {
+          setState(() {
+            _isVisible = false;
+          });
+        });
+      }
+    });
+  }
 
   @override
   void initState() {
     widget.feedProvider.loadVideos();
-
     super.initState();
   }
 
@@ -45,7 +60,8 @@ class _FeedViewState extends State<FeedView> {
         },
         color: Colors.black,
         child: (widget.feedProvider.videoList.isNotEmpty)
-            ? feedScreen(widget.feedProvider)
+            ? feedScreen(
+                widget.feedProvider, _isVisible, _togglePlayAndPauseVisibility)
             : SafeArea(
                 child: Stack(
                   children: [
@@ -63,7 +79,8 @@ class _FeedViewState extends State<FeedView> {
   }
 }
 
-Widget feedScreen(FeedController feedProvider) {
+Widget feedScreen(FeedController feedProvider, bool isVisible,
+    Function togglePlayAndPauseVisibility) {
   PageController pageController = PageController(
     initialPage: 0,
     viewportFraction: 1,
@@ -76,21 +93,27 @@ Widget feedScreen(FeedController feedProvider) {
     onPageChanged: (index) {
       index = index % (feedProvider.videoList.length);
       feedProvider.changeVideo(index);
+      if (index == feedProvider.videoList.length - 1) {
+        //  TODO: 마지막 영상에 이르면 추가 로딩 기능 구현
+      }
     },
     itemBuilder: (context, index) {
       index = index % (feedProvider.videoList.length);
-      return videoScreen(feedProvider.videoList[index]);
+      return videoScreen(feedProvider.videoList[index], isVisible,
+          togglePlayAndPauseVisibility);
     },
   );
 }
 
-Widget videoScreen(ShortForm video) {
+Widget videoScreen(
+    ShortForm video, bool isVisible, Function togglePlayAndPauseVisibility) {
   return SafeArea(
     child: Stack(
       children: [
         video.controller != null
             ? GestureDetector(
                 onTap: () {
+                  togglePlayAndPauseVisibility();
                   if (video.controller!.value.isPlaying) {
                     video.controller?.pause();
                   } else {
@@ -116,6 +139,31 @@ Widget videoScreen(ShortForm video) {
                   ),
                 ),
               ),
+        video.controller != null
+            ? Center(
+                child: AnimatedOpacity(
+                  opacity: isVisible ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 500),
+                  child: Container(
+                    width: 70,
+                    height: 70,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
+                    ),
+                    child: Center(
+                      child: Icon(
+                        (video.controller!.value.isPlaying)
+                            ? FontAwesomeIcons.circlePlay
+                            : FontAwesomeIcons.circlePause,
+                        size: 50,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : const SizedBox.shrink(),
         buttonUI(video),
       ],
     ),
