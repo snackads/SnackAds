@@ -15,13 +15,14 @@ class FeedButtons extends StatelessWidget {
         //  like
         buttonDesign(numOfLikes(likes), FontAwesomeIcons.heart, () {}),
         //  comments
-        buttonDesign('댓글', FontAwesomeIcons.comment, () {}),
+        //buttonDesign('댓글', FontAwesomeIcons.comment, () {}),
         //  share
         buttonDesign('공유', FontAwesomeIcons.share, () {}),
       ],
     );
   }
 
+  // 좋아요 수 단위 변환
   String numOfLikes(int likes) {
     if (likes >= 1000000000) {
       return '${likes ~/ 1000000000}B';
