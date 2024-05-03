@@ -13,8 +13,8 @@ class ProfileView extends StatelessWidget {
         Provider.of<AuthenticationController>(context);
 
     authenticationController.isUserLoggedOut = () {
-      Provider.of<BottomNavigationController>(context, listen: false)
-          .changeTabIndex(0);
+      // Provider.of<BottomNavigationController>(context, listen: false)
+      //     .changeTabIndex(0);
       context.go('/login');
     };
 
