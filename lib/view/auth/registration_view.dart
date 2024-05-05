@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/authentication_controller.dart';
+import 'package:snack_ads/controller/register_controller.dart';
 import 'package:snack_ads/model/user.dart';
 
 class RegistrationView extends StatelessWidget {
@@ -11,14 +12,10 @@ class RegistrationView extends StatelessWidget {
   Widget build(BuildContext context) {
     final AuthenticationController authenticationController =
         Provider.of<AuthenticationController>(context);
-    final loggedInUser = authenticationController.currentUser;
+    final RegisterController registerController =
+        Provider.of<RegisterController>(context);
 
-    // TextEditingControllers
-    final TextEditingController nameController =
-        TextEditingController(text: loggedInUser?.displayName);
-    final TextEditingController nicknameController = TextEditingController();
-    final TextEditingController phoneController =
-        TextEditingController(text: "");
+    final loggedInUser = authenticationController.currentUser;
 
     return GestureDetector(
       onTap: () {
@@ -49,7 +46,7 @@ class RegistrationView extends StatelessWidget {
               ),
               TextField(
                 controller: TextEditingController(text: loggedInUser?.email),
-                enabled: false,
+                readOnly: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                 ),
@@ -84,12 +81,12 @@ class RegistrationView extends StatelessWidget {
                 ],
               ),
               TextField(
-                controller: nameController,
+                controller: registerController.nameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  nameController.text = value;
+                  registerController.nameController.text = value;
                 },
               ),
 
@@ -122,12 +119,12 @@ class RegistrationView extends StatelessWidget {
                 ],
               ),
               TextField(
-                controller: nicknameController,
+                controller: registerController.nicknameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  nicknameController.text = value;
+                  registerController.nicknameController.text = value;
                 },
               ),
 
@@ -145,14 +142,14 @@ class RegistrationView extends StatelessWidget {
                 ),
               ),
               TextField(
-                controller: phoneController,
+                controller: registerController.phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "'-' 없이 작성해주세요 (예: 01012345678)",
                 ),
                 onChanged: (value) {
-                  phoneController.text = value;
+                  registerController.phoneController.text = value;
                 },
               ),
             ],
@@ -168,8 +165,8 @@ class RegistrationView extends StatelessWidget {
             height: 60,
             child: ElevatedButton(
               onPressed: () {
-                if (nameController.text.isEmpty ||
-                    nicknameController.text.isEmpty) {
+                if (registerController.nameController.text.isEmpty ||
+                    registerController.nicknameController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(
@@ -183,16 +180,16 @@ class RegistrationView extends StatelessWidget {
                   );
                 } else {
                   User currentUser = User(
-                    name: nameController.text,
-                    nickname: nicknameController.text,
+                    name: registerController.nameController.text,
+                    nickname: registerController.nicknameController.text,
                     email: loggedInUser?.email,
                     uid: loggedInUser!.uid,
-                    phone: phoneController.text == ""
+                    phone: registerController.phoneController.text == ""
                         ? null
-                        : phoneController.text,
+                        : registerController.phoneController.text,
                   );
-                  authenticationController
-                      .addUserInfoToFirestore(currentUser.toFirestore());
+                  registerController.addUserInfoToFirestore(
+                      loggedInUser.uid, currentUser.toFirestore());
                   context.go('/main');
                 }
               },

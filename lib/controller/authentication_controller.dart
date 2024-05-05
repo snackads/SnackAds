@@ -84,13 +84,4 @@ class AuthenticationController with ChangeNotifier {
           name: 'getUserInfoFromFirestore');
     });
   }
-
-  // Firestore에 사용자 정보 추가하기
-  void addUserInfoToFirestore(Map<String, dynamic> userInfo) {
-    _db.collection("users").doc(_user!.uid).set(userInfo).then((value) {
-      dev.log("User Info Added", name: 'addUserInfoToFirestore');
-    }).catchError((error) {
-      dev.log("Failed to add user: $error", name: 'addUserInfoToFirestore');
-    });
-  }
 }
