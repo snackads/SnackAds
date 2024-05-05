@@ -40,7 +40,7 @@ class FeedController extends ChangeNotifier {
     return videoList;
   }
 
-  changeVideo(index) async {
+  void changeVideo(index) async {
     if (videoList[index].controller == null) {
       await videoList[index].loadController();
     }

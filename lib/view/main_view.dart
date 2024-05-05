@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:snack_ads/controller/authentication_controller.dart';
 import 'package:snack_ads/controller/bottom_navigation_controller.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
 import 'package:snack_ads/view/feed/feed_view.dart';
@@ -11,6 +13,7 @@ import 'package:snack_ads/view/profile_view.dart';
 class MainView extends StatelessWidget {
   MainView({super.key});
 
+  late AuthenticationController _authenticationController;
   late BottomNavigationController _bottomNavigationController;
   late FeedController _feedProvider;
 
@@ -70,6 +73,11 @@ class MainView extends StatelessWidget {
     _bottomNavigationController =
         Provider.of<BottomNavigationController>(context);
     _feedProvider = Provider.of<FeedController>(context);
+    _authenticationController = Provider.of<AuthenticationController>(context);
+
+    _authenticationController.moveToRegisterView = () {
+      context.go('/register');
+    };
 
     return Scaffold(
       body: _navigationBody(),

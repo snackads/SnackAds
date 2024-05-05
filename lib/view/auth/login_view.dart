@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/authentication_controller.dart';
 import 'package:snack_ads/controller/bottom_navigation_controller.dart';
+import 'dart:developer' as dev;
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -13,6 +14,7 @@ class LoginView extends StatelessWidget {
     final authenticationController =
         Provider.of<AuthenticationController>(context);
     authenticationController.isUserLoggedIn = () {
+      dev.log('User is logged in', name: "isUserLoggedIn");
       Provider.of<BottomNavigationController>(context, listen: false)
           .changeTabIndex(0);
       context.go('/main');

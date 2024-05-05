@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snack_ads/view/auth/login_view.dart';
+import 'package:snack_ads/view/auth/registration_view.dart';
 import 'package:snack_ads/view/main_view.dart';
 import 'package:snack_ads/view/profile_view.dart';
 
@@ -13,7 +14,7 @@ class App extends StatelessWidget {
       title: "SnackAds",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        useMaterial3: false,
       ),
       routerConfig: _router,
     );
@@ -31,6 +32,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/main',
       builder: (context, state) => MainView(),
+    ),
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegistrationView(),
     ),
     GoRoute(
       path: '/profile',
