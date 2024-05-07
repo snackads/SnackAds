@@ -33,6 +33,7 @@ dependencies:
   # CONVENIENCE
   font_awesome_flutter: ^10.7.0
   video_player: ^2.8.6
+  flutter_naver_map: ^1.2.2
 
 dev_dependencies:
   flutter_test:
