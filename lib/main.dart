@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +21,7 @@ Future<void> main() async {
   await NaverMapSdk.instance.initialize(
       clientId: 'hbclic8td3', // 클라이언트 ID 설정
       onAuthFailed: (ex) {
-        print("********* 네이버맵 인증오류 : $ex *********");
+        log("********* 네이버맵 인증오류 : $ex *********");
       });
 
   runApp(
