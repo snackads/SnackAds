@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +10,9 @@ import 'package:snack_ads/controller/authentication_controller.dart';
 import 'package:snack_ads/controller/bottom_navigation_controller.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
 import 'package:snack_ads/view/feed/feed_view.dart';
+import 'package:snack_ads/view/map/map_view.dart';
 import 'package:snack_ads/view/profile_view.dart';
+// import 'package:snack_ads/map/map_view.dart';
 
 class MainView extends StatelessWidget {
   MainView({super.key});
@@ -22,7 +26,7 @@ class MainView extends StatelessWidget {
       case 0:
         return FeedView(feedProvider: _feedProvider);
       case 1:
-        return Container(color: Colors.green);
+        return const MapView();
       case 2:
         return Container(color: Colors.blue);
       case 3:
