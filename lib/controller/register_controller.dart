@@ -18,4 +18,6 @@ class RegisterController extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController(text: "");
+  final TextEditingController roleController =
+      TextEditingController(text: "--당신의 역할을 선택해주세요--");
 }
