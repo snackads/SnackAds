@@ -20,7 +20,7 @@ class FeedView extends StatefulWidget {
 
 class _FeedViewState extends State<FeedView>
     with SingleTickerProviderStateMixin {
-  ShortForm temp = ShortForm(
+  ShortForm tempVideo = ShortForm(
       description: ' ', name: ' ', videoURL: ' ', videoVid: ' ', likes: 0);
 
   bool _isVisible = false;
@@ -73,7 +73,7 @@ class _FeedViewState extends State<FeedView>
                         color: Colors.white,
                       ),
                     ),
-                    buttonUI(temp, context),
+                    buttonUITemp(tempVideo),
                   ],
                 ),
               ),
@@ -103,13 +103,17 @@ Widget feedScreen(FeedController feedProvider, bool isVisible,
     itemBuilder: (context, index) {
       index = index % (feedProvider.videoList.length);
       return videoScreen(feedProvider.videoList[index], isVisible,
-          togglePlayAndPauseVisibility, context);
+          togglePlayAndPauseVisibility, context, pageController);
     },
   );
 }
 
-Widget videoScreen(ShortForm video, bool isVisible,
-    Function togglePlayAndPauseVisibility, BuildContext context) {
+Widget videoScreen(
+    ShortForm video,
+    bool isVisible,
+    Function togglePlayAndPauseVisibility,
+    BuildContext context,
+    PageController pageController) {
   return SafeArea(
     child: Stack(
       children: [
@@ -167,13 +171,14 @@ Widget videoScreen(ShortForm video, bool isVisible,
                 ),
               )
             : const SizedBox.shrink(),
-        buttonUI(video, context),
+        buttonUI(video, context, pageController),
       ],
     ),
   );
 }
 
-Widget buttonUI(ShortForm video, BuildContext context) {
+Widget buttonUI(
+    ShortForm video, BuildContext context, PageController pageController) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
     child: Column(
@@ -182,7 +187,38 @@ Widget buttonUI(ShortForm video, BuildContext context) {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            reportButtonComponent(context, video),
+            reportButtonComponent(context, video, pageController),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            FeedViewDescription(
+              videoRestaurantName: video.name,
+              videoDescription: video.description,
+            ),
+            FeedColumnButtons(
+              likes: video.likes,
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buttonUITemp(ShortForm video) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Icon(FontAwesomeIcons.ellipsisVertical,
+                size: 25, color: Colors.grey[300]),
           ],
         ),
         Row(

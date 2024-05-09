@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/report_controller.dart';
 import 'package:snack_ads/model/shortform.dart';
 
-Widget reportButtonComponent(BuildContext context, ShortForm video) {
+Widget reportButtonComponent(
+    BuildContext context, ShortForm video, PageController pageController) {
   ReportController reportController = Provider.of<ReportController>(context);
   return PopupMenuButton<String>(
     icon: Icon(FontAwesomeIcons.ellipsisVertical,
@@ -18,6 +19,8 @@ Widget reportButtonComponent(BuildContext context, ShortForm video) {
             duration: Duration(seconds: 1),
           ),
         );
+        pageController.nextPage(
+            duration: const Duration(milliseconds: 300), curve: Curves.ease);
       }
     },
     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
