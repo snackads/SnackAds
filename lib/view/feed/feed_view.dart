@@ -20,8 +20,8 @@ class FeedView extends StatefulWidget {
 
 class _FeedViewState extends State<FeedView>
     with SingleTickerProviderStateMixin {
-  ShortForm temp =
-      ShortForm(description: ' ', name: ' ', videoURL: ' ', likes: 0);
+  ShortForm temp = ShortForm(
+      description: ' ', name: ' ', videoURL: ' ', videoVid: ' ', likes: 0);
 
   bool _isVisible = false;
 
@@ -182,7 +182,7 @@ Widget buttonUI(ShortForm video, BuildContext context) {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            reportButtonComponent(context),
+            reportButtonComponent(context, video),
           ],
         ),
         Row(

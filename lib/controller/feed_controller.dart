@@ -36,6 +36,7 @@ class FeedController extends ChangeNotifier {
         description: doc['description'],
         videoURL: doc['videoURL'],
         likes: doc['likes'],
+        videoVid: doc['videoVid'],
       );
       videoList.add(shortForm);
     }

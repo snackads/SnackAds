@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:snack_ads/view/auth/login_view.dart';
 import 'package:snack_ads/view/auth/registration_view.dart';
+import 'package:snack_ads/view/feed_upload/feed_upload_view.dart';
 import 'package:snack_ads/view/main_view.dart';
 import 'package:snack_ads/view/profile_view.dart';
 
@@ -40,6 +41,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/profile',
       builder: (context, state) => const ProfileView(),
+    ),
+    GoRoute(
+      path: '/upload',
+      builder: (context, state) => const FeedUploadView(),
     ),
   ],
 );

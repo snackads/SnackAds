@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'dart:developer' as dev;
+import 'package:provider/provider.dart';
+import 'package:snack_ads/controller/report_controller.dart';
+import 'package:snack_ads/model/shortform.dart';
 
-import 'package:go_router/go_router.dart';
-
-Widget reportButtonComponent(BuildContext context) {
+Widget reportButtonComponent(BuildContext context, ShortForm video) {
+  ReportController reportController = Provider.of<ReportController>(context);
   return PopupMenuButton<String>(
     icon: Icon(FontAwesomeIcons.ellipsisVertical,
         size: 25, color: Colors.grey[300]),
     onSelected: (String value) {
       if (value.compareTo('report') == 0) {
+        reportController.reportVideoToDB(video);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('신고되었습니다. 감사합니다 :)'),
             duration: Duration(seconds: 1),
           ),
         );
-      } else {
-        context.push('/upload');
       }
     },
     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -29,10 +29,6 @@ Widget reportButtonComponent(BuildContext context) {
             color: Colors.red,
           ),
         ),
-      ),
-      const PopupMenuItem<String>(
-        value: 'upload',
-        child: Text('영상 업로드(임시)'),
       ),
     ],
   );

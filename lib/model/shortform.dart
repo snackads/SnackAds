@@ -4,6 +4,7 @@ class ShortForm {
   String name;
   String description;
   String videoURL;
+  String videoVid;
   int likes;
 
   VideoPlayerController? controller;
@@ -12,6 +13,7 @@ class ShortForm {
     required this.name,
     required this.description,
     required this.videoURL,
+    required this.videoVid,
     required this.likes,
   });
 
