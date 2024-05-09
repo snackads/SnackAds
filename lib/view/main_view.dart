@@ -10,6 +10,7 @@ import 'package:snack_ads/controller/authentication_controller.dart';
 import 'package:snack_ads/controller/bottom_navigation_controller.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
 import 'package:snack_ads/view/feed/feed_view.dart';
+import 'package:snack_ads/view/feed_upload/feed_upload_select_view.dart';
 import 'package:snack_ads/view/map/map_view.dart';
 import 'package:snack_ads/view/profile_view.dart';
 // import 'package:snack_ads/map/map_view.dart';
@@ -28,8 +29,10 @@ class MainView extends StatelessWidget {
       case 1:
         return const MapView();
       case 2:
-        return Container(color: Colors.blue);
+        return const FeedUploadSelectView();
       case 3:
+        return Container(color: Colors.blue);
+      case 4:
         return const ProfileView();
       default:
         return Container(color: Colors.red);
@@ -57,6 +60,11 @@ class MainView extends StatelessWidget {
           backgroundColor: Colors.black,
           icon: Icon(FontAwesomeIcons.mapLocation),
           label: 'Map',
+        ),
+        BottomNavigationBarItem(
+          backgroundColor: Colors.black,
+          icon: Icon(FontAwesomeIcons.squarePlus),
+          label: 'upload',
         ),
         BottomNavigationBarItem(
           backgroundColor: Colors.black,
