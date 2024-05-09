@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:snack_ads/model/shortform.dart';
 import 'dart:developer' as dev;
 
-class ReportController extends ChangeNotifier {
+class FeedReportController extends ChangeNotifier {
   void reportVideoToDB(ShortForm video) async {
     DocumentReference videoRef = FirebaseFirestore.instance
         .collection('reportedVideos')

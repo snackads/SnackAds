@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:snack_ads/controller/report_controller.dart';
+import 'package:snack_ads/controller/feed_report_controller.dart';
 import 'package:snack_ads/model/shortform.dart';
 
 Widget reportButtonComponent(
     BuildContext context, ShortForm video, PageController pageController) {
-  ReportController reportController = Provider.of<ReportController>(context);
+  FeedReportController reportController =
+      Provider.of<FeedReportController>(context);
   return PopupMenuButton<String>(
     icon: Icon(FontAwesomeIcons.ellipsisVertical,
         size: 25, color: Colors.grey[300]),

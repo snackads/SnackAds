@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/authentication_controller.dart';
-import 'package:snack_ads/controller/bottom_navigation_controller.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});

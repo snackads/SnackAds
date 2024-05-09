@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
 import 'package:snack_ads/model/shortform.dart';
-import 'package:snack_ads/view/feed/feed_column_buttons_components.dart';
 import 'package:snack_ads/view/feed/feed_column_buttons.dart';
 import 'package:snack_ads/view/feed/feed_view_description.dart';
 import 'package:video_player/video_player.dart';
-import 'dart:developer' as dev;
 
 import 'feed_report_buttons_component.dart';
 
