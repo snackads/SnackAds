@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:snack_ads/controller/feed_upload_controller.dart';
 
 class FeedUploadSelectView extends StatelessWidget {
   const FeedUploadSelectView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    FeedUploadController feedUploadController =
+        Provider.of<FeedUploadController>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -18,6 +23,7 @@ class FeedUploadSelectView extends StatelessWidget {
               child: selectionButton(
                   context, FontAwesomeIcons.camera, '영상 촬영하기', () {
                 dev.log('영상 촬영 모드');
+                feedUploadController.getVideo(ImageSource.camera, context);
               }),
             ),
             const SizedBox(
@@ -26,6 +32,7 @@ class FeedUploadSelectView extends StatelessWidget {
             Center(
               child: selectionButton(context, Icons.photo, '앨범에서 업로드하기', () {
                 dev.log('앨범 업로드 모드');
+                feedUploadController.getVideo(ImageSource.gallery, context);
               }),
             ),
           ],
