@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class FeedDescription extends StatelessWidget {
+class FeedViewDescription extends StatelessWidget {
   final String videoRestaurantName;
   final String videoDescription;
-  const FeedDescription(
+  const FeedViewDescription(
       {super.key,
       required this.videoRestaurantName,
       required this.videoDescription});

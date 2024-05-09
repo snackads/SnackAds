@@ -28,6 +28,8 @@ class FeedController extends ChangeNotifier {
 
     //  TODO: 추후 영상 가져오는 알고리즘 적용
     var data = await FirebaseFirestore.instance.collection("Videos").get();
+    // var data =
+    //     await FirebaseFirestore.instance.collection("shortsVideos").get();
     for (var doc in data.docs) {
       ShortForm shortForm = ShortForm(
         name: doc['name'],
@@ -45,7 +47,6 @@ class FeedController extends ChangeNotifier {
       await videoList[index].loadController();
     }
     videoList[index].controller!.play();
-    //videoListprevVideo].controller.removeListener(() {});
 
     if (videoList[prevVideo].controller != null) {
       videoList[prevVideo].controller!.pause();
@@ -59,6 +60,7 @@ class FeedController extends ChangeNotifier {
     if (videoList.length > index) {
       await videoList[index].loadController();
       videoList[index].controller?.play();
+      prevVideo = index;
       notifyListeners();
     }
   }

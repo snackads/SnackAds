@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
 import 'package:snack_ads/model/shortform.dart';
-import 'package:snack_ads/view/feed/feed_button_design.dart';
-import 'package:snack_ads/view/feed/feed_buttons.dart';
-import 'package:snack_ads/view/feed/feed_description.dart';
+import 'package:snack_ads/view/feed/feed_column_buttons_components.dart';
+import 'package:snack_ads/view/feed/feed_column_buttons.dart';
+import 'package:snack_ads/view/feed/feed_view_description.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:developer' as dev;
+
+import 'feed_report_buttons_component.dart';
 
 class FeedView extends StatefulWidget {
   final FeedController feedProvider;
@@ -70,7 +73,7 @@ class _FeedViewState extends State<FeedView>
                         color: Colors.white,
                       ),
                     ),
-                    buttonUI(temp),
+                    buttonUI(temp, context),
                   ],
                 ),
               ),
@@ -100,13 +103,13 @@ Widget feedScreen(FeedController feedProvider, bool isVisible,
     itemBuilder: (context, index) {
       index = index % (feedProvider.videoList.length);
       return videoScreen(feedProvider.videoList[index], isVisible,
-          togglePlayAndPauseVisibility);
+          togglePlayAndPauseVisibility, context);
     },
   );
 }
 
-Widget videoScreen(
-    ShortForm video, bool isVisible, Function togglePlayAndPauseVisibility) {
+Widget videoScreen(ShortForm video, bool isVisible,
+    Function togglePlayAndPauseVisibility, BuildContext context) {
   return SafeArea(
     child: Stack(
       children: [
@@ -164,13 +167,13 @@ Widget videoScreen(
                 ),
               )
             : const SizedBox.shrink(),
-        buttonUI(video),
+        buttonUI(video, context),
       ],
     ),
   );
 }
 
-Widget buttonUI(ShortForm video) {
+Widget buttonUI(ShortForm video, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
     child: Column(
@@ -179,19 +182,18 @@ Widget buttonUI(ShortForm video) {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            //  report
-            buttonDesign('    ', FontAwesomeIcons.ellipsisVertical, () {}),
+            reportButtonComponent(context),
           ],
         ),
         Row(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            FeedDescription(
+            FeedViewDescription(
               videoRestaurantName: video.name,
               videoDescription: video.description,
             ),
-            FeedButtons(
+            FeedColumnButtons(
               likes: video.likes,
             ),
           ],
