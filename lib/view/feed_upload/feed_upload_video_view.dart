@@ -17,7 +17,7 @@ class _FeedUploadVideoViewState extends State<FeedUploadVideoView> {
 
   @override
   void initState() {
-    widget.feedUploadController.setVideo();
+    widget.feedUploadController.setVideo(context);
     super.initState();
   }
 
@@ -43,6 +43,11 @@ class _FeedUploadVideoViewState extends State<FeedUploadVideoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('영상 확인'),
+        backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+      ),
       backgroundColor: Colors.black,
       body: (widget.feedUploadController.video != null)
           ? videoScreen(widget.feedUploadController.videoController!,
@@ -130,12 +135,19 @@ Widget videoScreen(
               onPressed: () {
                 context.pop();
               },
-              child: designedText('이전'),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+              ),
+              child: designedText('취소하기'),
             ),
             TextButton(
               onPressed: () {
-                //  TODO: 영상 ShortForm Model 생성 및 파베 업로드 구현
+                videoController.pause();
+                context.push('/videoUploadDetail');
               },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+              ),
               child: designedText('다음'),
             ),
           ]),
