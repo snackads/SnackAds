@@ -12,8 +12,7 @@ Widget reportButtonComponent(
     icon: Icon(FontAwesomeIcons.ellipsis, size: 25, color: Colors.grey[300]),
     onSelected: (String value) {
       if (value.compareTo('report') == 0) {
-        reportController.reportVideoToDB(video);
-        showMessage(context, pageController);
+        showMessage(context, pageController, reportController, video);
       }
     },
     itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -30,7 +29,8 @@ Widget reportButtonComponent(
   );
 }
 
-Future showMessage(BuildContext context, PageController pageController) {
+Future showMessage(BuildContext context, PageController pageController,
+    FeedReportController reportController, ShortForm video) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -73,6 +73,7 @@ Future showMessage(BuildContext context, PageController pageController) {
                 ),
                 GestureDetector(
                   onTap: () {
+                    reportController.reportVideoToDB(video);
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

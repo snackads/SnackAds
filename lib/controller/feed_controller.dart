@@ -37,7 +37,6 @@ class FeedController extends ChangeNotifier {
         restaurantRid: doc['restaurantRid'],
         videoURL: doc['videoURL'],
         likes: doc['likes'],
-        videoVid: doc['videoVid'],
         shortFormSid: doc['shortFormSid'],
       );
       videoList.add(shortForm);

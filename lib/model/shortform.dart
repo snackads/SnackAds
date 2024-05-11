@@ -7,7 +7,6 @@ class ShortForm {
   String restaurantAddress;
   String restaurantRid;
   String videoURL;
-  String videoVid;
   String shortFormSid;
   int likes;
 
@@ -19,7 +18,6 @@ class ShortForm {
     required this.restaurantAddress,
     required this.restaurantRid,
     required this.videoURL,
-    required this.videoVid,
     required this.shortFormSid,
     required this.likes,
   });
