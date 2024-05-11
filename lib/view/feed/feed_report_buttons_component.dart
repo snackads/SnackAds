@@ -34,7 +34,7 @@ Future showMessage(BuildContext context, PageController pageController) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      content: Container(
+      content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.5,
         height: 170,
         child: Column(

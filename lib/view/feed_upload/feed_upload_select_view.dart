@@ -14,7 +14,7 @@ class FeedUploadSelectView extends StatelessWidget {
     FeedUploadController feedUploadController =
         Provider.of<FeedUploadController>(context);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +48,7 @@ Widget selectionButton(
     onPressed: onPressed,
     style: ElevatedButton.styleFrom(
       //  TODO: 어플 메인 컬러로 디자인 수정
-      //backgroundColor: Colors.purple,
+      backgroundColor: Colors.black,
       foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),

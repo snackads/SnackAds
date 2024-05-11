@@ -1,4 +1,5 @@
 class Restaurant {
+  String rid;
   String name;
   String description;
   List<String> tagList;
@@ -10,6 +11,7 @@ class Restaurant {
   double? longitude;
 
   Restaurant({
+    required this.rid,
     required this.name,
     required this.description,
     required this.tagList,

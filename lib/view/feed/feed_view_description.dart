@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 class FeedViewDescription extends StatelessWidget {
   final String videoRestaurantName;
-  final String videoDescription;
-  const FeedViewDescription(
-      {super.key,
-      required this.videoRestaurantName,
-      required this.videoDescription});
+  final String videoRestaurantAddress;
+  const FeedViewDescription({
+    super.key,
+    required this.videoRestaurantName,
+    required this.videoRestaurantAddress,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class FeedViewDescription extends StatelessWidget {
               height: 7,
             ),
             Text(
-              videoDescription,
+              videoRestaurantAddress,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: const TextStyle(

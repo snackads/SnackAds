@@ -27,16 +27,18 @@ class FeedController extends ChangeNotifier {
     List<ShortForm> videoList = [];
 
     //  TODO: 추후 영상 가져오는 알고리즘 적용, query order: 위치 > 최신 > 좋아요
-    var data = await FirebaseFirestore.instance.collection("Videos").get();
-    // var data =
-    //     await FirebaseFirestore.instance.collection("shortsVideos").get();
+    var data =
+        await FirebaseFirestore.instance.collection("shortFormVideos").get();
     for (var doc in data.docs) {
       ShortForm shortForm = ShortForm(
-        name: doc['name'],
-        description: doc['description'],
+        uploadedAt: doc['uploadedAt'],
+        restaurantName: doc['restaurantName'],
+        restaurantAddress: doc['restaurantAddress'],
+        restaurantRid: doc['restaurantRid'],
         videoURL: doc['videoURL'],
         likes: doc['likes'],
         videoVid: doc['videoVid'],
+        shortFormSid: doc['shortFormSid'],
       );
       videoList.add(shortForm);
     }

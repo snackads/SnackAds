@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/feed_upload_controller.dart';
 import 'package:snack_ads/view/auth/login_view.dart';
 import 'package:snack_ads/view/auth/registration_view.dart';
+import 'package:snack_ads/view/feed_upload/feed_upload_detail_view.dart';
 import 'package:snack_ads/view/feed_upload/feed_upload_video_view.dart';
 import 'package:snack_ads/view/main_view.dart';
 import 'package:snack_ads/view/profile_view.dart';
@@ -50,6 +51,12 @@ final _router = GoRouter(
     GoRoute(
       path: '/videoUpload',
       builder: (context, state) => FeedUploadVideoView(
+        feedUploadController: feedUploadController,
+      ),
+    ),
+    GoRoute(
+      path: '/videoUploadDetail',
+      builder: (context, state) => FeedUploadDetailView(
         feedUploadController: feedUploadController,
       ),
     ),

@@ -18,9 +18,6 @@ class FeedView extends StatefulWidget {
 
 class _FeedViewState extends State<FeedView>
     with SingleTickerProviderStateMixin {
-  ShortForm tempVideo = ShortForm(
-      description: ' ', name: ' ', videoURL: ' ', videoVid: ' ', likes: 0);
-
   bool _isVisible = false;
 
   void _togglePlayAndPauseVisibility() {
@@ -71,7 +68,7 @@ class _FeedViewState extends State<FeedView>
                         color: Colors.white,
                       ),
                     ),
-                    buttonUITemp(tempVideo),
+                    buttonUITemp(),
                   ],
                 ),
               ),
@@ -199,8 +196,8 @@ Widget buttonUI(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             FeedViewDescription(
-              videoRestaurantName: video.name,
-              videoDescription: video.description,
+              videoRestaurantName: video.restaurantName,
+              videoRestaurantAddress: video.restaurantAddress,
             ),
             FeedColumnButtons(
               likes: video.likes,
@@ -212,7 +209,7 @@ Widget buttonUI(
   );
 }
 
-Widget buttonUITemp(ShortForm video) {
+Widget buttonUITemp() {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
     child: Column(
@@ -221,20 +218,33 @@ Widget buttonUITemp(ShortForm video) {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Icon(FontAwesomeIcons.ellipsisVertical,
-                size: 25, color: Colors.grey[300]),
+            PopupMenuButton(
+              icon: Icon(FontAwesomeIcons.ellipsis,
+                  size: 25, color: Colors.grey[300]),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'report',
+                  child: Text(
+                    '신고하기',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
-        Row(
+        const Row(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             FeedViewDescription(
-              videoRestaurantName: video.name,
-              videoDescription: video.description,
+              videoRestaurantName: '',
+              videoRestaurantAddress: '',
             ),
             FeedColumnButtons(
-              likes: video.likes,
+              likes: 0,
             ),
           ],
         ),
