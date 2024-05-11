@@ -12,13 +12,13 @@ class FeedColumnButtons extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        //  share
+        columnButtonsComponent('공유', FontAwesomeIcons.share, () {}),
         //  like
         columnButtonsComponent(
             numOfLikes(likes), FontAwesomeIcons.heart, () {}),
         //  comments
         //buttonDesign('댓글', FontAwesomeIcons.comment, () {}),
-        //  share
-        columnButtonsComponent('공유', FontAwesomeIcons.share, () {}),
       ],
     );
   }

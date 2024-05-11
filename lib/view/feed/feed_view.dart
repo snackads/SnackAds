@@ -113,63 +113,69 @@ Widget videoScreen(
     BuildContext context,
     PageController pageController) {
   return SafeArea(
-    child: Stack(
+    child: Column(
       children: [
-        video.controller != null
-            ? GestureDetector(
-                onTap: () {
-                  togglePlayAndPauseVisibility();
-                  if (video.controller!.value.isPlaying) {
-                    video.controller?.pause();
-                  } else {
-                    video.controller?.play();
-                  }
-                },
-                child: SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: video.controller?.value.size.width ?? 0,
-                      height: video.controller?.value.size.height ?? 0,
-                      child: VideoPlayer(video.controller!),
-                    ),
-                  ),
-                ),
-              )
-            : Container(
-                color: Colors.black,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-        video.controller != null
-            ? Center(
-                child: AnimatedOpacity(
-                  opacity: isVisible ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 500),
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
+        Expanded(
+          child: Stack(
+            children: [
+              video.controller != null
+                  ? GestureDetector(
+                      onTap: () {
+                        togglePlayAndPauseVisibility();
+                        if (video.controller!.value.isPlaying) {
+                          video.controller?.pause();
+                        } else {
+                          video.controller?.play();
+                        }
+                      },
+                      child: SizedBox.expand(
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: SizedBox(
+                            width: video.controller?.value.size.width ?? 0,
+                            height: video.controller?.value.size.height ?? 0,
+                            child: VideoPlayer(video.controller!),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(
                       color: Colors.black,
-                    ),
-                    child: Center(
-                      child: Icon(
-                        (video.controller!.value.isPlaying)
-                            ? FontAwesomeIcons.circlePlay
-                            : FontAwesomeIcons.circlePause,
-                        size: 50,
-                        color: Colors.white,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              )
-            : const SizedBox.shrink(),
-        buttonUI(video, context, pageController),
+              video.controller != null
+                  ? Center(
+                      child: AnimatedOpacity(
+                        opacity: isVisible ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 500),
+                        child: Container(
+                          width: 70,
+                          height: 70,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              (video.controller!.value.isPlaying)
+                                  ? FontAwesomeIcons.circlePlay
+                                  : FontAwesomeIcons.circlePause,
+                              size: 50,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+              buttonUI(video, context, pageController),
+            ],
+          ),
+        ),
       ],
     ),
   );

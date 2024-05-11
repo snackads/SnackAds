@@ -12,7 +12,7 @@ class FeedViewDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: 150,
+        height: MediaQuery.of(context).size.height * 0.2,
         padding: const EdgeInsets.only(left: 20.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -48,9 +48,10 @@ class FeedViewDescription extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -61,7 +62,7 @@ class FeedViewDescription extends StatelessWidget {
             Text(
               videoDescription,
               overflow: TextOverflow.ellipsis,
-              maxLines: 2,
+              maxLines: 1,
               style: const TextStyle(
                 fontSize: 16,
                 color: Colors.white,

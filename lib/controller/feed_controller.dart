@@ -26,7 +26,7 @@ class FeedController extends ChangeNotifier {
   Future<List<ShortForm>> getVideoList() async {
     List<ShortForm> videoList = [];
 
-    //  TODO: 추후 영상 가져오는 알고리즘 적용
+    //  TODO: 추후 영상 가져오는 알고리즘 적용, query order: 위치 > 최신 > 좋아요
     var data = await FirebaseFirestore.instance.collection("Videos").get();
     // var data =
     //     await FirebaseFirestore.instance.collection("shortsVideos").get();

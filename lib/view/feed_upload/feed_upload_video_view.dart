@@ -85,7 +85,7 @@ Widget videoScreen(
                 },
                 child: SizedBox.expand(
                   child: FittedBox(
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitWidth,
                     child: SizedBox(
                       width: videoController.value.size.width,
                       height: videoController.value.size.height,
