@@ -5,6 +5,7 @@ import 'package:snack_ads/model/shortform.dart';
 import 'package:snack_ads/view/feed/feed_column_buttons.dart';
 import 'package:snack_ads/view/feed/feed_view_description.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:developer' as dev;
 
 import 'feed_report_buttons_component.dart';
 
@@ -50,29 +51,15 @@ class _FeedViewState extends State<FeedView>
     return Scaffold(
       backgroundColor: Colors.black,
       body: RefreshIndicator(
-        //  TODO: 새로고침시 새로운 영상 불러오기 추가
-        onRefresh: () async {
-          // setState(() {
-          //   widget.feedProvider.loadVideos();
-          // });
-        },
-        color: Colors.black,
-        child: (widget.feedProvider.videoList.isNotEmpty)
-            ? feedScreen(
-                widget.feedProvider, _isVisible, _togglePlayAndPauseVisibility)
-            : SafeArea(
-                child: Stack(
-                  children: [
-                    const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
-                    ),
-                    buttonUITemp(),
-                  ],
-                ),
-              ),
-      ),
+          //  TODO: 새로고침시 새로운 영상 불러오기 추가
+          onRefresh: () async {
+            // setState(() {
+            //   widget.feedProvider.loadVideos();
+            // });
+          },
+          color: Colors.black,
+          child: feedScreen(
+              widget.feedProvider, _isVisible, _togglePlayAndPauseVisibility)),
     );
   }
 }
@@ -93,6 +80,9 @@ Widget feedScreen(FeedController feedProvider, bool isVisible,
       feedProvider.changeVideo(index);
       if (index == feedProvider.videoList.length - 1) {
         //  TODO: 마지막 영상에 이르면 추가 로딩 기능 구현
+        dev.log('reached last video');
+        feedProvider.updateLastQueryVideo(index);
+        feedProvider.getVideoList(feedProvider.last);
       }
     },
     itemBuilder: (context, index) {
@@ -110,71 +100,84 @@ Widget videoScreen(
     BuildContext context,
     PageController pageController) {
   return SafeArea(
-    child: Column(
-      children: [
-        Expanded(
-          child: Stack(
+    child: (video.controller != null && video.controller!.value.isInitialized)
+        ? Column(
             children: [
-              video.controller != null
-                  ? GestureDetector(
-                      onTap: () {
-                        togglePlayAndPauseVisibility();
-                        if (video.controller!.value.isPlaying) {
-                          video.controller?.pause();
-                        } else {
-                          video.controller?.play();
-                        }
-                      },
-                      child: SizedBox.expand(
-                        child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: SizedBox(
-                            width: video.controller?.value.size.width ?? 0,
-                            height: video.controller?.value.size.height ?? 0,
-                            child: VideoPlayer(video.controller!),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Container(
-                      color: Colors.black,
-                      child: const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-              video.controller != null
-                  ? Center(
-                      child: AnimatedOpacity(
-                        opacity: isVisible ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 500),
-                        child: Container(
-                          width: 70,
-                          height: 70,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
+              Expanded(
+                child: Stack(
+                  children: [
+                    video.controller != null
+                        ? GestureDetector(
+                            onTap: () {
+                              togglePlayAndPauseVisibility();
+                              if (video.controller!.value.isPlaying) {
+                                video.controller?.pause();
+                              } else {
+                                video.controller?.play();
+                              }
+                            },
+                            child: SizedBox.expand(
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: SizedBox(
+                                  width:
+                                      video.controller?.value.size.width ?? 0,
+                                  height:
+                                      video.controller?.value.size.height ?? 0,
+                                  child: VideoPlayer(video.controller!),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
                             color: Colors.black,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              (video.controller!.value.isPlaying)
-                                  ? FontAwesomeIcons.circlePlay
-                                  : FontAwesomeIcons.circlePause,
-                              size: 50,
-                              color: Colors.white,
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-              buttonUI(video, context, pageController),
+                    video.controller != null
+                        ? Center(
+                            child: AnimatedOpacity(
+                              opacity: isVisible ? 1.0 : 0.0,
+                              duration: const Duration(milliseconds: 500),
+                              child: Container(
+                                width: 70,
+                                height: 70,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.black,
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    (video.controller!.value.isPlaying)
+                                        ? FontAwesomeIcons.circlePlay
+                                        : FontAwesomeIcons.circlePause,
+                                    size: 50,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                    buttonUI(video, context, pageController),
+                  ],
+                ),
+              ),
+            ],
+          )
+        : Stack(
+            children: [
+              const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+              buttonUITemp(),
             ],
           ),
-        ),
-      ],
-    ),
   );
 }
 
