@@ -5,6 +5,7 @@ import 'package:snack_ads/model/shortform.dart';
 import 'package:snack_ads/view/feed/feed_column_buttons.dart';
 import 'package:snack_ads/view/feed/feed_view_description.dart';
 import 'package:video_player/video_player.dart';
+
 import 'dart:developer' as dev;
 
 import 'feed_report_buttons_component.dart';
@@ -51,15 +52,29 @@ class _FeedViewState extends State<FeedView>
     return Scaffold(
       backgroundColor: Colors.black,
       body: RefreshIndicator(
-          //  TODO: 새로고침시 새로운 영상 불러오기 추가
-          onRefresh: () async {
-            // setState(() {
-            //   widget.feedProvider.loadVideos();
-            // });
-          },
-          color: Colors.black,
-          child: feedScreen(
-              widget.feedProvider, _isVisible, _togglePlayAndPauseVisibility)),
+        //  TODO: 새로고침시 새로운 영상 불러오기 추가
+        onRefresh: () async {
+          // setState(() {
+          //   widget.feedProvider.loadVideos();
+          // });
+        },
+        color: Colors.black,
+        child: (widget.feedProvider.videoList.isNotEmpty)
+            ? feedScreen(
+                widget.feedProvider, _isVisible, _togglePlayAndPauseVisibility)
+            : SafeArea(
+                child: Stack(
+                  children: [
+                    const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                    buttonUITemp(),
+                  ],
+                ),
+              ),
+      ),
     );
   }
 }
@@ -73,20 +88,17 @@ Widget feedScreen(FeedController feedProvider, bool isVisible,
 
   return PageView.builder(
     controller: pageController,
-    itemCount: feedProvider.videoList.length,
     scrollDirection: Axis.vertical,
     onPageChanged: (index) {
-      index = index % (feedProvider.videoList.length);
+      index = index % feedProvider.videoList.length;
       feedProvider.changeVideo(index);
       if (index == feedProvider.videoList.length - 1) {
-        //  TODO: 마지막 영상에 이르면 추가 로딩 기능 구현
         dev.log('reached last video');
-        feedProvider.updateLastQueryVideo(index);
-        feedProvider.getVideoList(feedProvider.last);
+        feedProvider.getNewVideoList(feedProvider.last);
       }
     },
     itemBuilder: (context, index) {
-      index = index % (feedProvider.videoList.length);
+      index = index % feedProvider.videoList.length;
       return videoScreen(feedProvider.videoList[index], isVisible,
           togglePlayAndPauseVisibility, context, pageController);
     },

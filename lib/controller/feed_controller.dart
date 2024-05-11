@@ -7,7 +7,7 @@ import 'dart:developer' as dev;
 class FeedController extends ChangeNotifier {
   List<ShortForm> videoList = [];
   VideoPlayerController? controller;
-  int documentsLimit = 4; // 한 번에 로드할 문서 수
+  int documentsLimit = 5; // 한 번에 로드할 문서 수
   DocumentSnapshot? last;
   QuerySnapshot? querySnapshot;
 
@@ -17,21 +17,17 @@ class FeedController extends ChangeNotifier {
 
   void loadVideos() async {
     try {
-      List<ShortForm> newVideoList = await getVideoList(last);
-      videoList.clear();
-      videoList.addAll(newVideoList);
-      changeVideo(0);
+      await getNewVideoList(last).then((value) {
+        changeVideo(0);
+        notifyListeners();
+      });
     } catch (e) {
       videoList.clear();
     }
   }
 
-  Future<List<ShortForm>> getVideoList(DocumentSnapshot? lastDocument) async {
-    List<ShortForm> videoList = [];
-
+  Future<void> getNewVideoList(DocumentSnapshot? lastDocument) async {
     //  TODO: 추후 영상 가져오는 알고리즘 적용, query order: 위치 > 최신 > 좋아요
-    // var data =
-    //     await FirebaseFirestore.instance.collection("shortFormVideos").get();
 
     if (lastDocument == null) {
       // 첫 페이지 로드
@@ -48,6 +44,14 @@ class FeedController extends ChangeNotifier {
           .get();
     }
 
+    // 새로운 데이터가 없는 경우에 대한 처리
+    if (querySnapshot == null || querySnapshot!.docs.isEmpty) {
+      notifyListeners();
+      return;
+    } else {
+      last = querySnapshot!.docs[querySnapshot!.docs.length - 1];
+    }
+
     for (var doc in querySnapshot!.docs) {
       ShortForm shortForm = ShortForm(
         uploadedAt: doc['uploadedAt'],
@@ -60,13 +64,7 @@ class FeedController extends ChangeNotifier {
       );
       videoList.add(shortForm);
     }
-    dev.log('${videoList.length}');
-    notifyListeners();
-    return videoList;
-  }
-
-  void updateLastQueryVideo(int index) {
-    //last = querySnapshot!.docs[index];
+    //dev.log('${videoList.length}');
     notifyListeners();
   }
 
@@ -116,6 +114,7 @@ class FeedController extends ChangeNotifier {
     notifyListeners();
   }
 
+  //  페이지를 나갔다 와도 기존 영상 리스트는 유지
   void disposeAllController() {
     for (var d in videoList) {
       if (d.controller != null) {
@@ -124,6 +123,5 @@ class FeedController extends ChangeNotifier {
         d.controller = null;
       }
     }
-    videoList.clear();
   }
 }
