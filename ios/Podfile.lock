@@ -1018,6 +1018,8 @@ PODS:
   - flutter_naver_map (1.0.0):
     - Flutter
     - NMapsMap (= 3.17.0)
+  - geolocator_apple (1.2.0):
+    - Flutter
   - google_sign_in_ios (0.0.1):
     - AppAuth (>= 1.7.4)
     - Flutter
@@ -1160,6 +1162,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_naver_map (from `.symlinks/plugins/flutter_naver_map/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/darwin`)
@@ -1202,6 +1205,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_naver_map:
     :path: ".symlinks/plugins/flutter_naver_map/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   path_provider_foundation:
@@ -1227,6 +1232,7 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: 76e1529c32101d80e4f1ca2fba7c39d59f0a390a
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_naver_map: b18663bc83c2caaab484c58dccf239a87ebbed1b
+  geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
