@@ -1,17 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:video_player/video_player.dart';
 
 class ShortForm {
-  String name;
-  String description;
+  Timestamp uploadedAt;
+  String restaurantName;
+  String restaurantAddress;
+  String restaurantRid;
   String videoURL;
+  String shortFormSid;
   int likes;
 
   VideoPlayerController? controller;
 
   ShortForm({
-    required this.name,
-    required this.description,
+    required this.uploadedAt,
+    required this.restaurantName,
+    required this.restaurantAddress,
+    required this.restaurantRid,
     required this.videoURL,
+    required this.shortFormSid,
     required this.likes,
   });
 

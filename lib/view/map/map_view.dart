@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 class MapView extends StatefulWidget {
-  const MapView({Key? key}) : super(key: key);
+  const MapView({super.key});
 
   @override
   State<MapView> createState() => _MapViewState();
 }
 
 class _MapViewState extends State<MapView> {
-  late NaverMapController _mapController;
+  late NaverMapController mapController;
   final Completer<NaverMapController> mapControllerCompleter = Completer();
 
   @override
@@ -42,7 +42,7 @@ class _MapViewState extends State<MapView> {
 
         onMapReady: (controller) async {
           // 지도 준비 완료 시 호출되는 콜백 함수
-          _mapController = controller;
+          mapController = controller;
           mapControllerCompleter
               .complete(controller); // Completer에 지도 컨트롤러 완료 신호 전송
           log("onMapReady", name: "onMapReady");
