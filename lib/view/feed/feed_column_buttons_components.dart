@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-Widget buttonDesign(String title, IconData icon, Function func) {
+Widget columnButtonsComponent(String title, IconData icon, Function func) {
   return GestureDetector(
     onTap: () {
-      func;
+      func();
     },
     child: Container(
       margin: const EdgeInsets.only(top: 15.0),

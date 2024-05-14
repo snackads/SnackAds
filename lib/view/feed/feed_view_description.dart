@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
-class FeedDescription extends StatelessWidget {
+class FeedViewDescription extends StatelessWidget {
   final String videoRestaurantName;
-  final String videoDescription;
-  const FeedDescription(
-      {super.key,
-      required this.videoRestaurantName,
-      required this.videoDescription});
+  final String videoRestaurantAddress;
+  const FeedViewDescription({
+    super.key,
+    required this.videoRestaurantName,
+    required this.videoRestaurantAddress,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: 150,
+        height: MediaQuery.of(context).size.height * 0.2,
         padding: const EdgeInsets.only(left: 20.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -48,9 +49,10 @@ class FeedDescription extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -59,9 +61,9 @@ class FeedDescription extends StatelessWidget {
               height: 7,
             ),
             Text(
-              videoDescription,
+              videoRestaurantAddress,
               overflow: TextOverflow.ellipsis,
-              maxLines: 2,
+              maxLines: 1,
               style: const TextStyle(
                 fontSize: 16,
                 color: Colors.white,

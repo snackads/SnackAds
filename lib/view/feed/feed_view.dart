@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
 import 'package:snack_ads/model/shortform.dart';
-import 'package:snack_ads/view/feed/feed_button_design.dart';
-import 'package:snack_ads/view/feed/feed_buttons.dart';
-import 'package:snack_ads/view/feed/feed_description.dart';
+import 'package:snack_ads/view/feed/feed_column_buttons.dart';
+import 'package:snack_ads/view/feed/feed_view_description.dart';
 import 'package:video_player/video_player.dart';
+
+import 'dart:developer' as dev;
+
+import 'feed_report_buttons_component.dart';
 
 class FeedView extends StatefulWidget {
   final FeedController feedProvider;
@@ -17,9 +20,6 @@ class FeedView extends StatefulWidget {
 
 class _FeedViewState extends State<FeedView>
     with SingleTickerProviderStateMixin {
-  ShortForm temp =
-      ShortForm(description: ' ', name: ' ', videoURL: ' ', likes: 0);
-
   bool _isVisible = false;
 
   void _togglePlayAndPauseVisibility() {
@@ -70,7 +70,7 @@ class _FeedViewState extends State<FeedView>
                         color: Colors.white,
                       ),
                     ),
-                    buttonUI(temp),
+                    buttonUITemp(),
                   ],
                 ),
               ),
@@ -88,89 +88,113 @@ Widget feedScreen(FeedController feedProvider, bool isVisible,
 
   return PageView.builder(
     controller: pageController,
-    itemCount: feedProvider.videoList.length,
     scrollDirection: Axis.vertical,
     onPageChanged: (index) {
-      index = index % (feedProvider.videoList.length);
+      index = index % feedProvider.videoList.length;
       feedProvider.changeVideo(index);
       if (index == feedProvider.videoList.length - 1) {
-        //  TODO: 마지막 영상에 이르면 추가 로딩 기능 구현
+        dev.log('reached last video');
+        feedProvider.getNewVideoList(feedProvider.last);
       }
     },
     itemBuilder: (context, index) {
-      index = index % (feedProvider.videoList.length);
+      index = index % feedProvider.videoList.length;
       return videoScreen(feedProvider.videoList[index], isVisible,
-          togglePlayAndPauseVisibility);
+          togglePlayAndPauseVisibility, context, pageController);
     },
   );
 }
 
 Widget videoScreen(
-    ShortForm video, bool isVisible, Function togglePlayAndPauseVisibility) {
+    ShortForm video,
+    bool isVisible,
+    Function togglePlayAndPauseVisibility,
+    BuildContext context,
+    PageController pageController) {
   return SafeArea(
-    child: Stack(
-      children: [
-        video.controller != null
-            ? GestureDetector(
-                onTap: () {
-                  togglePlayAndPauseVisibility();
-                  if (video.controller!.value.isPlaying) {
-                    video.controller?.pause();
-                  } else {
-                    video.controller?.play();
-                  }
-                },
-                child: SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: video.controller?.value.size.width ?? 0,
-                      height: video.controller?.value.size.height ?? 0,
-                      child: VideoPlayer(video.controller!),
-                    ),
-                  ),
-                ),
-              )
-            : Container(
-                color: Colors.black,
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
+    child: (video.controller != null && video.controller!.value.isInitialized)
+        ? Column(
+            children: [
+              Expanded(
+                child: Stack(
+                  children: [
+                    video.controller != null
+                        ? GestureDetector(
+                            onTap: () {
+                              togglePlayAndPauseVisibility();
+                              if (video.controller!.value.isPlaying) {
+                                video.controller?.pause();
+                              } else {
+                                video.controller?.play();
+                              }
+                            },
+                            child: SizedBox.expand(
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child: SizedBox(
+                                  width:
+                                      video.controller?.value.size.width ?? 0,
+                                  height:
+                                      video.controller?.value.size.height ?? 0,
+                                  child: VideoPlayer(video.controller!),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            color: Colors.black,
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                    video.controller != null
+                        ? Center(
+                            child: AnimatedOpacity(
+                              opacity: isVisible ? 1.0 : 0.0,
+                              duration: const Duration(milliseconds: 500),
+                              child: Container(
+                                width: 70,
+                                height: 70,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.black,
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    (video.controller!.value.isPlaying)
+                                        ? FontAwesomeIcons.circlePlay
+                                        : FontAwesomeIcons.circlePause,
+                                    size: 50,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                    buttonUI(video, context, pageController),
+                  ],
                 ),
               ),
-        video.controller != null
-            ? Center(
-                child: AnimatedOpacity(
-                  opacity: isVisible ? 1.0 : 0.0,
-                  duration: const Duration(milliseconds: 500),
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                    ),
-                    child: Center(
-                      child: Icon(
-                        (video.controller!.value.isPlaying)
-                            ? FontAwesomeIcons.circlePlay
-                            : FontAwesomeIcons.circlePause,
-                        size: 50,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+            ],
+          )
+        : Stack(
+            children: [
+              const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
                 ),
-              )
-            : const SizedBox.shrink(),
-        buttonUI(video),
-      ],
-    ),
+              ),
+              buttonUITemp(),
+            ],
+          ),
   );
 }
 
-Widget buttonUI(ShortForm video) {
+Widget buttonUI(
+    ShortForm video, BuildContext context, PageController pageController) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
     child: Column(
@@ -179,20 +203,63 @@ Widget buttonUI(ShortForm video) {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            //  report
-            buttonDesign('    ', FontAwesomeIcons.ellipsisVertical, () {}),
+            reportButtonComponent(context, video, pageController),
           ],
         ),
         Row(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            FeedDescription(
-              videoRestaurantName: video.name,
-              videoDescription: video.description,
+            FeedViewDescription(
+              videoRestaurantName: video.restaurantName,
+              videoRestaurantAddress: video.restaurantAddress,
             ),
-            FeedButtons(
+            FeedColumnButtons(
               likes: video.likes,
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buttonUITemp() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            PopupMenuButton(
+              icon: Icon(FontAwesomeIcons.ellipsis,
+                  size: 25, color: Colors.grey[300]),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'report',
+                  child: Text(
+                    '신고하기',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            FeedViewDescription(
+              videoRestaurantName: '',
+              videoRestaurantAddress: '',
+            ),
+            FeedColumnButtons(
+              likes: 0,
             ),
           ],
         ),
