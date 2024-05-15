@@ -1,29 +1,41 @@
 import 'package:snack_ads/model/shortform.dart';
 
-class User {
+class AppUser {
   String? uid;
-  String name;
-  String nickname;
+  String? name;
+  String? nickname;
+  String? photoURL;
   String? email;
   String? phone;
-  List<ShortForm> likedShortForms = [];
+  List<ShortForm> bookmarkList = [];
 
-  User({
-    this.uid,
-    required this.name,
-    required this.nickname,
-    required this.email,
-    this.phone,
-  });
+  // User({
+  //   this.uid,
+  //   this.name,
+  //   this.nickname,
+  //   this.photoURL,
+  //   this.email,
+  //   this.phone,
+  //   this.bookmarkList = const [],
+  // });
 
-  factory User.fromFirestore(Map<String, dynamic> data) {
-    return User(
-      uid: data['uid'],
-      name: data['name'],
-      nickname: data['nickname'],
-      email: data['email'],
-      phone: data['phone'],
-    );
+  // private internal constructor
+  AppUser._internal();
+  // single instance, initializes immediately
+  static final AppUser _instance = AppUser._internal();
+  // public factory method to access single instance
+  factory AppUser() {
+    return _instance;
+  }
+
+  void init(Map<String, dynamic> data) {
+    uid = data['uid'];
+    name = data['name'];
+    nickname = data['nickname'];
+    photoURL = data['photoURL'];
+    email = data['email'];
+    phone = data['phone'];
+    bookmarkList = data['bookmarkList'];
   }
 
   Map<String, dynamic> toFirestore() {
@@ -31,8 +43,10 @@ class User {
       'uid': uid,
       'name': name,
       'nickname': nickname,
+      'photoURL': photoURL,
       'email': email,
       'phone': phone,
+      'bookmarkList': bookmarkList,
     };
   }
 }

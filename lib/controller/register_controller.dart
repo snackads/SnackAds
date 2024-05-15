@@ -20,4 +20,9 @@ class RegisterController extends ChangeNotifier {
   final TextEditingController phoneController = TextEditingController(text: "");
   final TextEditingController roleController =
       TextEditingController(text: "--당신의 역할을 선택해주세요--");
+
+  void setRole(String value) {
+    roleController.text = value;
+    notifyListeners();
+  }
 }

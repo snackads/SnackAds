@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/authentication_controller.dart';
 import 'package:snack_ads/controller/register_controller.dart';
+import 'package:snack_ads/model/shortform.dart';
 import 'package:snack_ads/model/user.dart';
 
 class RegistrationView extends StatelessWidget {
@@ -191,8 +192,9 @@ class RegistrationView extends StatelessWidget {
                   iconSize: 16,
                   isExpanded: true,
                   onChanged: (value) {
+                    log(value ?? "null", name: "Dropdown");
                     if (value != null) {
-                      registerController.roleController.text = value;
+                      registerController.setRole(value);
                     } else {
                       log("value is null", name: "Role Selection");
                     }
@@ -256,17 +258,32 @@ class RegistrationView extends StatelessWidget {
                     ),
                   );
                 } else {
-                  User currentUser = User(
-                    name: registerController.nameController.text,
-                    nickname: registerController.nicknameController.text,
-                    email: loggedInUser?.email,
-                    uid: loggedInUser!.uid,
-                    phone: registerController.phoneController.text == ""
+                  // User currentUser = User(
+                  //   name: registerController.nameController.text,
+                  //   nickname: registerController.nicknameController.text,
+                  //   email: loggedInUser?.email,
+                  //   photoURL: loggedInUser?.photoURL,
+                  //   uid: loggedInUser!.uid,
+                  //   phone: registerController.phoneController.text == ""
+                  //       ? null
+                  //       : registerController.phoneController.text,
+                  // );
+                  Map<String, dynamic> data = {
+                    "name": registerController.nameController.text,
+                    "nickname": registerController.nicknameController.text,
+                    "email": loggedInUser?.email,
+                    "photoURL": loggedInUser?.photoURL,
+                    "uid": loggedInUser!.uid,
+                    "phone": registerController.phoneController.text == ""
                         ? null
                         : registerController.phoneController.text,
-                  );
+                    "role": registerController.roleController.text,
+                    "bookmarkList": List<ShortForm>.empty(),
+                  };
+                  AppUser().init(data);
+                  log(AppUser().toFirestore().toString(), name: "AppUser");
                   registerController.addUserInfoToFirestore(
-                      loggedInUser.uid, currentUser.toFirestore());
+                      loggedInUser.uid, AppUser().toFirestore());
                   context.go('/main');
                 }
               },

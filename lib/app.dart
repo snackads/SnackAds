@@ -7,7 +7,8 @@ import 'package:snack_ads/view/auth/registration_view.dart';
 import 'package:snack_ads/view/feed_upload/feed_upload_detail_view.dart';
 import 'package:snack_ads/view/feed_upload/feed_upload_video_view.dart';
 import 'package:snack_ads/view/main_view.dart';
-import 'package:snack_ads/view/profile_view.dart';
+import 'package:snack_ads/view/profile/profile_view.dart';
+import 'package:snack_ads/view/profile/setting_view.dart';
 
 late FeedUploadController feedUploadController;
 
@@ -47,6 +48,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/profile',
       builder: (context, state) => const ProfileView(),
+    ),
+    GoRoute(
+      path: '/setting',
+      builder: (context, state) => const SettingView(),
     ),
     GoRoute(
       path: '/videoUpload',

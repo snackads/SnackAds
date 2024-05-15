@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:developer' as dev;
 
+import 'package:snack_ads/model/user.dart';
+
 class AuthenticationController with ChangeNotifier {
   User? _user;
   final _auth = FirebaseAuth.instance;
@@ -75,6 +77,8 @@ class AuthenticationController with ChangeNotifier {
     _db.collection("users").doc(_user!.uid).get().then((doc) {
       if (doc.exists) {
         dev.log(doc.data().toString(), name: 'getUserInfoFromFirestore');
+        AppUser().init(doc.data()!);
+        dev.log(AppUser().toFirestore().toString(), name: "AppUser");
       } else {
         dev.log("No such document", name: 'getUserInfoFromFirestore');
         moveToRegisterView!();
