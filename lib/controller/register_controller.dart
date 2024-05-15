@@ -25,4 +25,13 @@ class RegisterController extends ChangeNotifier {
     roleController.text = value;
     notifyListeners();
   }
+
+  void clearController() {
+    nameController.clear();
+    nicknameController.clear();
+    phoneController.clear();
+    roleController.clear();
+
+    notifyListeners();
+  }
 }

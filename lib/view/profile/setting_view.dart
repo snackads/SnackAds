@@ -44,6 +44,14 @@ class SettingView extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
+                    leading: const Icon(Icons.edit_note_outlined),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    title: const Text('Edit Profile'),
+                    onTap: () {
+                      context.push('/edit');
+                    },
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.help_center),
                     trailing: const Icon(Icons.arrow_forward_ios),
                     title: const Text('Help and Support'),

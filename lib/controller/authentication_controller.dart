@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:developer' as dev;
 
-import 'package:snack_ads/model/user.dart';
+import 'package:snack_ads/model/app_user.dart';
 
 class AuthenticationController with ChangeNotifier {
   User? _user;

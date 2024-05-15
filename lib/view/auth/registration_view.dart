@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/authentication_controller.dart';
 import 'package:snack_ads/controller/register_controller.dart';
 import 'package:snack_ads/model/shortform.dart';
-import 'package:snack_ads/model/user.dart';
+import 'package:snack_ads/model/app_user.dart';
 
 class RegistrationView extends StatelessWidget {
   const RegistrationView({super.key});
@@ -192,11 +192,11 @@ class RegistrationView extends StatelessWidget {
                   iconSize: 16,
                   isExpanded: true,
                   onChanged: (value) {
-                    log(value ?? "null", name: "Dropdown");
+                    dev.log(value ?? "null", name: "Dropdown");
                     if (value != null) {
                       registerController.setRole(value);
                     } else {
-                      log("value is null", name: "Role Selection");
+                      dev.log("value is null", name: "Role Selection");
                     }
                   },
                   items: const [
@@ -245,7 +245,9 @@ class RegistrationView extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 if (registerController.nameController.text.isEmpty ||
-                    registerController.nicknameController.text.isEmpty) {
+                    registerController.nicknameController.text.isEmpty ||
+                    registerController.roleController.text ==
+                        "--당신의 역할을 선택해주세요--") {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(
@@ -258,16 +260,6 @@ class RegistrationView extends StatelessWidget {
                     ),
                   );
                 } else {
-                  // User currentUser = User(
-                  //   name: registerController.nameController.text,
-                  //   nickname: registerController.nicknameController.text,
-                  //   email: loggedInUser?.email,
-                  //   photoURL: loggedInUser?.photoURL,
-                  //   uid: loggedInUser!.uid,
-                  //   phone: registerController.phoneController.text == ""
-                  //       ? null
-                  //       : registerController.phoneController.text,
-                  // );
                   Map<String, dynamic> data = {
                     "name": registerController.nameController.text,
                     "nickname": registerController.nicknameController.text,
@@ -277,11 +269,12 @@ class RegistrationView extends StatelessWidget {
                     "phone": registerController.phoneController.text == ""
                         ? null
                         : registerController.phoneController.text,
-                    "role": registerController.roleController.text,
-                    "bookmarkList": List<ShortForm>.empty(),
+                    "position": registerController.roleController.text,
+                    "uploadedShortForms": List<String>.empty(),
+                    "likedShortForms": List<String>.empty(),
                   };
                   AppUser().init(data);
-                  log(AppUser().toFirestore().toString(), name: "AppUser");
+                  dev.log(AppUser().toFirestore().toString(), name: "AppUser");
                   registerController.addUserInfoToFirestore(
                       loggedInUser.uid, AppUser().toFirestore());
                   context.go('/main');

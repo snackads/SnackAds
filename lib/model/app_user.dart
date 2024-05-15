@@ -1,5 +1,3 @@
-import 'package:snack_ads/model/shortform.dart';
-
 class AppUser {
   String? uid;
   String? name;
@@ -7,17 +5,9 @@ class AppUser {
   String? photoURL;
   String? email;
   String? phone;
-  List<ShortForm> bookmarkList = [];
-
-  // User({
-  //   this.uid,
-  //   this.name,
-  //   this.nickname,
-  //   this.photoURL,
-  //   this.email,
-  //   this.phone,
-  //   this.bookmarkList = const [],
-  // });
+  String? position;
+  List<String> uploadedShortForms = [];
+  List<String> likedShortForms = [];
 
   // private internal constructor
   AppUser._internal();
@@ -35,7 +25,9 @@ class AppUser {
     photoURL = data['photoURL'];
     email = data['email'];
     phone = data['phone'];
-    bookmarkList = data['bookmarkList'];
+    position = data['position'];
+    uploadedShortForms = data['uploadedShortForms'];
+    likedShortForms = data['likedShortForms'];
   }
 
   Map<String, dynamic> toFirestore() {
@@ -46,7 +38,9 @@ class AppUser {
       'photoURL': photoURL,
       'email': email,
       'phone': phone,
-      'bookmarkList': bookmarkList,
+      'position': position,
+      'uploadedShortForms': uploadedShortForms,
+      'likedShortForms': likedShortForms,
     };
   }
 }

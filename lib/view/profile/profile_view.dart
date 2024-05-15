@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:developer' as dev;
 
-import 'package:snack_ads/model/user.dart';
+import 'package:snack_ads/model/app_user.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -22,6 +22,7 @@ class ProfileView extends StatelessWidget {
             icon: const Icon(Icons.settings),
           ),
         ],
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
