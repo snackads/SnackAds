@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:snack_ads/model/app_user.dart';
 import 'package:snack_ads/model/restaurant.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
@@ -62,12 +63,21 @@ class FeedUploadController extends ChangeNotifier {
     dev.log(selectedRestaurant.rid);
   }
 
-  Future<bool> uploadNewShortFormToDatabase(
-      Restaurant selectedRestaurant) async {
+  Future<bool> uploadNewVideoToDB(Restaurant selectedRestaurant) async {
     try {
       DocumentReference documentReference =
           FirebaseFirestore.instance.collection('shortFormVideos').doc();
       String documentId = documentReference.id;
+
+      AppUser().uploadedShortForms.add(documentId);
+
+      FirebaseFirestore.instance.collection("users").doc(AppUser().uid).update({
+        'uploadedShortForms': FieldValue.arrayUnion([documentId])
+      }).then((_) {
+        dev.log('Document ID added to uploadedShortForms array');
+      }).catchError((error) {
+        dev.log('Error adding document ID: $error');
+      });
 
       uploadVideoToStorage(documentId).then((value) {
         documentReference.set({

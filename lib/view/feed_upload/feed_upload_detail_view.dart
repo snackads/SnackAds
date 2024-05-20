@@ -96,7 +96,7 @@ class _FeedUploadDetailViewState extends State<FeedUploadDetailView> {
                           widget.feedUploadController
                               .updateRestaurantData(selectedRestaurant);
                           widget.feedUploadController
-                              .uploadNewShortFormToDatabase(selectedRestaurant)
+                              .uploadNewVideoToDB(selectedRestaurant)
                               .then((value) {
                             // 로딩 인디케이터 삭제
                             //Navigator.of(context).pop();

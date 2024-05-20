@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
@@ -70,7 +73,7 @@ class _FeedViewState extends State<FeedView>
                         color: Colors.white,
                       ),
                     ),
-                    buttonUITemp(),
+                    buttonUITemp(widget.feedProvider),
                   ],
                 ),
               ),
@@ -100,17 +103,19 @@ Widget feedScreen(FeedController feedProvider, bool isVisible,
     itemBuilder: (context, index) {
       index = index % feedProvider.videoList.length;
       return videoScreen(feedProvider.videoList[index], isVisible,
-          togglePlayAndPauseVisibility, context, pageController);
+          togglePlayAndPauseVisibility, context, pageController, feedProvider);
     },
   );
 }
 
 Widget videoScreen(
-    ShortForm video,
-    bool isVisible,
-    Function togglePlayAndPauseVisibility,
-    BuildContext context,
-    PageController pageController) {
+  ShortForm video,
+  bool isVisible,
+  Function togglePlayAndPauseVisibility,
+  BuildContext context,
+  PageController pageController,
+  FeedController feedProvider,
+) {
   return SafeArea(
     child: (video.controller != null && video.controller!.value.isInitialized)
         ? Column(
@@ -174,7 +179,7 @@ Widget videoScreen(
                             ),
                           )
                         : const SizedBox.shrink(),
-                    buttonUI(video, context, pageController),
+                    buttonUI(video, context, pageController, feedProvider),
                   ],
                 ),
               ),
@@ -187,14 +192,14 @@ Widget videoScreen(
                   color: Colors.white,
                 ),
               ),
-              buttonUITemp(),
+              AbsorbPointer(absorbing: true, child: buttonUITemp(feedProvider)),
             ],
           ),
   );
 }
 
-Widget buttonUI(
-    ShortForm video, BuildContext context, PageController pageController) {
+Widget buttonUI(ShortForm video, BuildContext context,
+    PageController pageController, FeedController feedProvider) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
     child: Column(
@@ -215,7 +220,8 @@ Widget buttonUI(
               videoRestaurantAddress: video.restaurantAddress,
             ),
             FeedColumnButtons(
-              likes: video.likes,
+              video: video,
+              feedProvider: feedProvider,
             ),
           ],
         ),
@@ -224,7 +230,15 @@ Widget buttonUI(
   );
 }
 
-Widget buttonUITemp() {
+Widget buttonUITemp(FeedController feedProvider) {
+  ShortForm video = ShortForm(
+      uploadedAt: Timestamp.fromMicrosecondsSinceEpoch(0),
+      restaurantName: 'restaurantName',
+      restaurantAddress: 'restaurantAddress',
+      restaurantRid: 'restaurantRid',
+      videoURL: 'videoURL',
+      shortFormSid: 'shortFormSid',
+      likes: 0);
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
     child: Column(
@@ -250,16 +264,17 @@ Widget buttonUITemp() {
             ),
           ],
         ),
-        const Row(
+        Row(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            FeedViewDescription(
+            const FeedViewDescription(
               videoRestaurantName: '',
               videoRestaurantAddress: '',
             ),
             FeedColumnButtons(
-              likes: 0,
+              video: video,
+              feedProvider: feedProvider,
             ),
           ],
         ),

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:snack_ads/controller/feed_controller.dart';
+import 'package:snack_ads/model/app_user.dart';
+import 'package:snack_ads/model/shortform.dart';
 import 'package:snack_ads/view/feed/feed_column_buttons_components.dart';
 
 class FeedColumnButtons extends StatelessWidget {
-  final int likes;
-  const FeedColumnButtons({super.key, required this.likes});
+  final FeedController feedProvider;
+  final ShortForm video;
+  const FeedColumnButtons(
+      {super.key, required this.video, required this.feedProvider});
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +18,20 @@ class FeedColumnButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         //  share
-        columnButtonsComponent('공유', FontAwesomeIcons.share, () {}),
+        columnButtonsComponent(
+            '공유',
+            Icon(FontAwesomeIcons.share, size: 25, color: Colors.grey[300]),
+            () {}),
         //  like
         columnButtonsComponent(
-            numOfLikes(likes), FontAwesomeIcons.heart, () {}),
+            numOfLikes(video.likes),
+            (isLiked())
+                ? Icon(FontAwesomeIcons.solidHeart,
+                    size: 25, color: Colors.red[300])
+                : Icon(FontAwesomeIcons.heart,
+                    size: 25, color: Colors.grey[300]), () {
+          feedProvider.pushLikeButton(video);
+        }),
         //  comments
         //buttonDesign('댓글', FontAwesomeIcons.comment, () {}),
       ],
@@ -34,5 +49,9 @@ class FeedColumnButtons extends StatelessWidget {
     } else {
       return likes.toString();
     }
+  }
+
+  bool isLiked() {
+    return AppUser().likedShortForms.contains(video.shortFormSid);
   }
 }
