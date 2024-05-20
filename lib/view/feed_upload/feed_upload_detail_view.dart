@@ -4,6 +4,8 @@ import 'package:snack_ads/app.dart';
 import 'package:snack_ads/controller/feed_upload_controller.dart';
 import 'dart:developer' as dev;
 
+import 'package:snack_ads/model/restaurant.dart';
+
 double globalPadding = 16;
 
 class FeedUploadDetailView extends StatefulWidget {
@@ -16,7 +18,6 @@ class FeedUploadDetailView extends StatefulWidget {
 
 class _FeedUploadDetailViewState extends State<FeedUploadDetailView> {
   TextEditingController searchController = TextEditingController();
-  List<String> filteredStores = [];
   String? selectedRestaurantRid;
 
   @override
@@ -54,12 +55,17 @@ class _FeedUploadDetailViewState extends State<FeedUploadDetailView> {
                   padding: EdgeInsets.symmetric(horizontal: globalPadding),
                   child: TextField(
                     controller: searchController,
-                    onChanged: (value) {},
                     decoration: const InputDecoration(
-                      labelText: 'Search',
-                      hintText: 'Search store',
-                      prefixIcon: Icon(Icons.search),
+                      labelText: '검색하기',
+                      hintText: '가게 이름 검색',
+                      prefixIcon: Icon(Icons.search, color: Colors.black),
+                      hintStyle: TextStyle(color: Colors.grey),
+                      floatingLabelStyle: TextStyle(color: Colors.black),
                       border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.all(Radius.circular(25.0)),
                       ),
                     ),
@@ -75,24 +81,41 @@ class _FeedUploadDetailViewState extends State<FeedUploadDetailView> {
                         final listViewRestaurant =
                             feedUploadController.allRestaurantList[index];
 
-                        return ListTile(
-                          title: Text(listViewRestaurant.name),
-                          trailing: Radio(
-                            value: listViewRestaurant.rid,
-                            groupValue: selectedRestaurantRid,
-                            onChanged: (value) {
-                              setState(() {
-                                if (selectedRestaurantRid !=
-                                    listViewRestaurant.rid) {
-                                  selectedRestaurantRid =
-                                      listViewRestaurant.rid;
-                                  widget.feedUploadController
-                                      .updateRestaurantData(listViewRestaurant);
-                                }
-                              });
-                            },
-                          ),
-                        );
+                        return (listViewRestaurant.name
+                                .toLowerCase()
+                                .contains(searchController.text.toLowerCase()))
+                            ? ListTile(
+                                title: Text(listViewRestaurant.name),
+                                trailing: Radio(
+                                  value: listViewRestaurant.rid,
+                                  groupValue: selectedRestaurantRid,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (selectedRestaurantRid !=
+                                          listViewRestaurant.rid) {
+                                        selectedRestaurantRid =
+                                            listViewRestaurant.rid;
+                                        widget.feedUploadController
+                                            .updateRestaurantData(
+                                                listViewRestaurant);
+                                      }
+                                    });
+                                  },
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    if (selectedRestaurantRid !=
+                                        listViewRestaurant.rid) {
+                                      selectedRestaurantRid =
+                                          listViewRestaurant.rid;
+                                      widget.feedUploadController
+                                          .updateRestaurantData(
+                                              listViewRestaurant);
+                                    }
+                                  });
+                                },
+                              )
+                            : const SizedBox.shrink();
                       },
                     ),
                   ),
@@ -118,12 +141,27 @@ class _FeedUploadDetailViewState extends State<FeedUploadDetailView> {
           child: ElevatedButton(
             onPressed: (widget.feedUploadController.restaurant.rid.isNotEmpty)
                 ? () {
+                    Restaurant temp = Restaurant(
+                      rid: widget.feedUploadController.restaurant.rid,
+                      name: widget.feedUploadController.restaurant.name,
+                      description:
+                          widget.feedUploadController.restaurant.description,
+                      tagList: List<String>.from(
+                          widget.feedUploadController.restaurant.tagList),
+                      phone: widget.feedUploadController.restaurant.phone,
+                      address: widget.feedUploadController.restaurant.address,
+                      siteURL: widget.feedUploadController.restaurant.siteURL,
+                      imageURL: widget.feedUploadController.restaurant.imageURL,
+                      latitude: widget.feedUploadController.restaurant.latitude,
+                      longitude:
+                          widget.feedUploadController.restaurant.longitude,
+                    );
+
                     widget.feedUploadController
-                        .uploadNewVideoToDB(
-                            widget.feedUploadController.restaurant)
+                        .uploadNewVideoToDB(temp)
                         .then((value) {
-                      context.go('/main');
                       if (value) {
+                        context.go('/main');
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('영상이 성공적으로 업로드되었습니다 :)'),
@@ -186,11 +224,20 @@ class _FeedUploadDetailViewState extends State<FeedUploadDetailView> {
               ),
             ),
             const SizedBox(width: 16),
-            const Expanded(
-              child: Text(
-                'Store Name',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  feedUploadController.restaurant.name,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  feedUploadController.restaurant.address,
+                  style: const TextStyle(fontSize: 15, color: Colors.grey),
+                ),
+              ],
             ),
           ],
         ),

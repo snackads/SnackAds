@@ -100,7 +100,7 @@ class FeedUploadController extends ChangeNotifier {
     restaurant.rid = '';
   }
 
-  Future<bool> uploadNewVideoToDB(Restaurant restaurant) async {
+  Future<bool> uploadNewVideoToDB(Restaurant restaurantTemp) async {
     try {
       DocumentReference documentReference =
           FirebaseFirestore.instance.collection('shortFormVideos').doc();
@@ -119,9 +119,9 @@ class FeedUploadController extends ChangeNotifier {
       uploadVideoToStorage(documentId).then((value) {
         documentReference.set({
           'uploadedAt': Timestamp.now(),
-          'restaurantName': restaurant.name,
-          'restaurantAddress': restaurant.address,
-          'restaurantRid': restaurant.rid,
+          'restaurantName': restaurantTemp.name,
+          'restaurantAddress': restaurantTemp.address,
+          'restaurantRid': restaurantTemp.rid,
           'videoURL': videoURL,
           'shortFormSid': documentId,
           'likes': 0,
