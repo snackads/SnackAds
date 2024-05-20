@@ -17,6 +17,18 @@ class FeedUploadController extends ChangeNotifier {
   VideoPlayerController? videoController;
   String videoURL = '';
 
+  List<Restaurant> allRestaurantList = [];
+  Restaurant restaurant = Restaurant(
+    rid: '',
+    name: '',
+    description: '',
+    tagList: [''],
+    phone: '',
+    address: '',
+    siteURL: '',
+    imageURL: '',
+  );
+
   Future getVideo(ImageSource imageSource, BuildContext context) async {
     final XFile? pickedFile = await picker.pickVideo(source: imageSource);
     if (pickedFile != null) {
@@ -54,16 +66,41 @@ class FeedUploadController extends ChangeNotifier {
     videoController?.dispose();
   }
 
-  void updateRestaurantData(Restaurant selectedRestaurant) {
-    selectedRestaurant.name = generateRandomString(10); // 랜덤 문자열 생성
-    selectedRestaurant.address = generateRandomString(20); // 랜덤 문자열 생성
-    selectedRestaurant.rid = generateRandomString(8); // 랜덤 문자열 생성
-    dev.log(selectedRestaurant.name);
-    dev.log(selectedRestaurant.address);
-    dev.log(selectedRestaurant.rid);
+  Future<void> getAllRestaurantList() async {
+    dev.log('가져와아아아아');
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('restaurants').get();
+      allRestaurantList = querySnapshot.docs.map((doc) {
+        return Restaurant(
+          rid: doc.id,
+          name: doc['name'],
+          description: doc['name'],
+          tagList: List<String>.from(doc['tagList']),
+          phone: doc['phone'],
+          address: doc['address'],
+          siteURL: doc['siteURL'],
+          imageURL: doc['imageURL'],
+        );
+      }).toList();
+    } catch (e) {
+      dev.log('Error fetching restaurants: $e');
+    }
+    notifyListeners();
   }
 
-  Future<bool> uploadNewVideoToDB(Restaurant selectedRestaurant) async {
+  void updateRestaurantData(Restaurant selectedRestaurant) {
+    dev.log(selectedRestaurant.name);
+    restaurant = selectedRestaurant;
+    notifyListeners();
+  }
+
+  void removeRestaurantData() {
+    dev.log('지워!!!');
+    restaurant.rid = '';
+  }
+
+  Future<bool> uploadNewVideoToDB(Restaurant restaurant) async {
     try {
       DocumentReference documentReference =
           FirebaseFirestore.instance.collection('shortFormVideos').doc();
@@ -82,9 +119,9 @@ class FeedUploadController extends ChangeNotifier {
       uploadVideoToStorage(documentId).then((value) {
         documentReference.set({
           'uploadedAt': Timestamp.now(),
-          'restaurantName': selectedRestaurant.name,
-          'restaurantAddress': selectedRestaurant.address,
-          'restaurantRid': selectedRestaurant.rid,
+          'restaurantName': restaurant.name,
+          'restaurantAddress': restaurant.address,
+          'restaurantRid': restaurant.rid,
           'videoURL': videoURL,
           'shortFormSid': documentId,
           'likes': 0,
@@ -139,15 +176,4 @@ Future showMessage(BuildContext context, String message) {
       ],
     ),
   );
-}
-
-//  TODO: 임시 함수 추후에 삭제
-String generateRandomString(int length) {
-  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789'; // 생성할 문자열의 문자 범위
-  Random random = Random();
-  String result = '';
-  for (int i = 0; i < length; i++) {
-    result += characters[random.nextInt(characters.length)];
-  }
-  return result;
 }
