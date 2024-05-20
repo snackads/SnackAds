@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:snack_ads/model/app_user.dart';
 import 'package:snack_ads/model/shortform.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:developer' as dev;
@@ -123,5 +124,55 @@ class FeedController extends ChangeNotifier {
         d.controller = null;
       }
     }
+  }
+
+  Future<void> pushLikeButton(ShortForm video) async {
+    try {
+      DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection("users").doc(AppUser().uid);
+
+      // 먼저 문서가 존재하는지 확인합니다.
+      DocumentSnapshot userDocSnapshot = await userDocRef.get();
+
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('shortFormVideos')
+          .doc(video.shortFormSid);
+
+      if (userDocSnapshot.exists) {
+        //  좋아요 취소
+        if (AppUser().likedShortForms.contains(video.shortFormSid)) {
+          documentReference.update({'likes': FieldValue.increment(-1)});
+          video.likes += -1;
+
+          AppUser().likedShortForms.remove(video.shortFormSid);
+
+          await userDocRef.update({
+            'likedShortForms': FieldValue.arrayRemove([video.shortFormSid])
+          }).then((_) {
+            dev.log('shortForm ID removed from likedShortForms array');
+          }).catchError((error) {
+            dev.log('Error removing shortForm ID: $error');
+          });
+        }
+
+        //  좋아요 추가
+        else {
+          documentReference.update({'likes': FieldValue.increment(1)});
+          video.likes += 1;
+
+          AppUser().likedShortForms.add(video.shortFormSid);
+
+          await userDocRef.update({
+            'likedShortForms': FieldValue.arrayUnion([video.shortFormSid])
+          }).then((_) {
+            dev.log('shortForm ID added to likedShortForms array');
+          }).catchError((error) {
+            dev.log('Error adding shortForm ID: $error');
+          });
+        }
+      }
+    } catch (e) {}
+
+    notifyListeners();
   }
 }

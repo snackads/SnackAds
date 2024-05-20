@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:go_router/go_router.dart';
+import 'package:snack_ads/app.dart';
 import 'package:snack_ads/controller/feed_upload_controller.dart';
 import 'dart:developer' as dev;
-import 'dart:async';
 
 import 'package:snack_ads/model/restaurant.dart';
+
+double globalPadding = 16;
 
 class FeedUploadDetailView extends StatefulWidget {
   final FeedUploadController feedUploadController;
@@ -16,158 +17,231 @@ class FeedUploadDetailView extends StatefulWidget {
 }
 
 class _FeedUploadDetailViewState extends State<FeedUploadDetailView> {
-  late NaverMapController mapController;
-  final Completer<NaverMapController> mapControllerCompleter = Completer();
-
-  @override
-  void dispose() {
-    mapController.dispose();
-    super.dispose();
-  }
-
-  Restaurant selectedRestaurant = Restaurant(
-      rid: 'rid',
-      name: 'name',
-      description: 'description',
-      tagList: ['tagList'],
-      phone: 'phone',
-      address: 'address',
-      siteURL: 'siteURL',
-      imageURL: 'imageURL');
+  TextEditingController searchController = TextEditingController();
+  String? selectedRestaurantRid;
 
   @override
   void initState() {
     super.initState();
+    feedUploadController.getAllRestaurantList();
+  }
+
+  @override
+  void dispose() {
+    feedUploadController.removeRestaurantData();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('가게 위치 설정'),
+        title: const Text('가게 입력하기'),
         backgroundColor: Colors.black,
-        automaticallyImplyLeading: false,
       ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //  TODO: 네이버 지도로 가게 위치 선택해서 selectedRestaurant에 넣어주세요.
-              Expanded(child: naverMapSection()),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 100,
-                color: Colors.black,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                restaurantContainer(feedUploadController),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: globalPadding),
+                  child: TextField(
+                    controller: searchController,
+                    decoration: const InputDecoration(
+                      labelText: '검색하기',
+                      hintText: '가게 이름 검색',
+                      prefixIcon: Icon(Icons.search, color: Colors.black),
+                      hintStyle: TextStyle(color: Colors.grey),
+                      floatingLabelStyle: TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
                       ),
-                      child: designedText('뒤로가기'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        if (selectedRestaurant.rid.isNotEmpty) {
-                          // 로딩 인디케이터
-                          // showDialog(
-                          //   context: context,
-                          //   barrierDismissible:
-                          //       false, // 다이얼로그 외부를 터치해도 닫히지 않도록 설정
-                          //   builder: (BuildContext context) {
-                          //     return const Center(
-                          //       child: CircularProgressIndicator(
-                          //         color: Colors.black,
-                          //       ), // 인디케이터를 표시
-                          //     );
-                          //   },
-                          // );
-                          //  TODO: 임시 함수 추후에 삭제
-                          widget.feedUploadController
-                              .updateRestaurantData(selectedRestaurant);
-                          widget.feedUploadController
-                              .uploadNewShortFormToDatabase(selectedRestaurant)
-                              .then((value) {
-                            // 로딩 인디케이터 삭제
-                            //Navigator.of(context).pop();
-                            context.go('/main');
-                            if (value) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('영상이 성공적으로 업로드되었습니다 :)'),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('영상 업로드 중 문제가 발생하였습니다 :('),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
-                            }
-                          });
-                        } else {
-                          dev.log('필수 정보가 미입력되었습니다.');
-                        }
-                      },
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
                       ),
-                      child: designedText('저장하기'),
                     ),
-                  ],
+                  ),
                 ),
-              )
-            ],
+                const SizedBox(height: 20),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: globalPadding),
+                    child: ListView.builder(
+                      itemCount: feedUploadController.allRestaurantList.length,
+                      itemBuilder: (context, index) {
+                        final listViewRestaurant =
+                            feedUploadController.allRestaurantList[index];
+
+                        return (listViewRestaurant.name
+                                .toLowerCase()
+                                .contains(searchController.text.toLowerCase()))
+                            ? ListTile(
+                                title: Text(listViewRestaurant.name),
+                                trailing: Radio(
+                                  value: listViewRestaurant.rid,
+                                  groupValue: selectedRestaurantRid,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (selectedRestaurantRid !=
+                                          listViewRestaurant.rid) {
+                                        selectedRestaurantRid =
+                                            listViewRestaurant.rid;
+                                        widget.feedUploadController
+                                            .updateRestaurantData(
+                                                listViewRestaurant);
+                                      }
+                                    });
+                                  },
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    if (selectedRestaurantRid !=
+                                        listViewRestaurant.rid) {
+                                      selectedRestaurantRid =
+                                          listViewRestaurant.rid;
+                                      widget.feedUploadController
+                                          .updateRestaurantData(
+                                              listViewRestaurant);
+                                    }
+                                  });
+                                },
+                              )
+                            : const SizedBox.shrink();
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Align(alignment: Alignment.bottomCenter, child: bottomButton()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget bottomButton() {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: globalPadding, vertical: globalPadding),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 60,
+          child: ElevatedButton(
+            onPressed: (widget.feedUploadController.restaurant.rid.isNotEmpty)
+                ? () {
+                    Restaurant temp = Restaurant(
+                      rid: widget.feedUploadController.restaurant.rid,
+                      name: widget.feedUploadController.restaurant.name,
+                      description:
+                          widget.feedUploadController.restaurant.description,
+                      tagList: List<String>.from(
+                          widget.feedUploadController.restaurant.tagList),
+                      phone: widget.feedUploadController.restaurant.phone,
+                      address: widget.feedUploadController.restaurant.address,
+                      siteURL: widget.feedUploadController.restaurant.siteURL,
+                      imageURL: widget.feedUploadController.restaurant.imageURL,
+                      latitude: widget.feedUploadController.restaurant.latitude,
+                      longitude:
+                          widget.feedUploadController.restaurant.longitude,
+                    );
+
+                    widget.feedUploadController
+                        .uploadNewVideoToDB(temp)
+                        .then((value) {
+                      if (value) {
+                        context.go('/main');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('영상이 성공적으로 업로드되었습니다 :)'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('영상 업로드 중 문제가 발생하였습니다 :('),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      }
+                    });
+                  }
+                : null,
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.black,
+              disabledBackgroundColor: Colors.grey,
+              disabledForegroundColor: Colors.white,
+            ),
+            child: designedText('업로드'),
           ),
         ),
       ),
     );
   }
 
-  Widget naverMapSection() => NaverMap(
-        options: const NaverMapViewOptions(
-          // initialCameraPosition: NCameraPosition(
-          //     target: NLatLng(latitude, longitude),
-          //     zoom: 10,
-          //     bearing: 0,
-          //     tilt: 0),
-          indoorEnable: true,
-          locationButtonEnable: true,
-          consumeSymbolTapEvents: false,
+  Widget designedText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(color: Colors.white, fontSize: 20),
+    );
+  }
+
+  Widget restaurantContainer(FeedUploadController feedUploadController) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: globalPadding, vertical: globalPadding),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(10),
         ),
-        onMapReady: (controller) async {
-          // 지도 준비 완료 시 호출되는 콜백 함수
-          mapController = controller;
-          mapControllerCompleter
-              .complete(controller); // Completer에 지도 컨트롤러 완료 신호 전송
-        },
-      );
-}
-
-Widget designedText(String text) {
-  return Text(
-    text,
-    style: const TextStyle(color: Colors.white, fontSize: 20),
-  );
-}
-
-Widget TempButton(
-    Restaurant selectedRestaurant, FeedUploadController feedUploadController) {
-  return ElevatedButton(
-      onPressed: () {
-        feedUploadController.updateRestaurantData(selectedRestaurant);
-      },
-      child: const Text('update'));
+        child: Row(
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: NetworkImage(feedUploadController.restaurant.imageURL),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  feedUploadController.restaurant.name,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  feedUploadController.restaurant.address,
+                  style: const TextStyle(fontSize: 15, color: Colors.grey),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
