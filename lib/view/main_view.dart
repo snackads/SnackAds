@@ -29,7 +29,7 @@ class MainView extends StatelessWidget {
       case 2:
         return const FeedUploadSelectView();
       case 3:
-        return const RestaurantProfileView();
+        return Container(color: Colors.blue);
       case 4:
         return const ProfileView();
       default:

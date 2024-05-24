@@ -216,6 +216,7 @@ Widget buttonUI(ShortForm video, BuildContext context,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             FeedViewDescription(
+              videoRid: video.restaurantRid,
               videoRestaurantName: video.restaurantName,
               videoRestaurantAddress: video.restaurantAddress,
             ),
@@ -268,7 +269,8 @@ Widget buttonUITemp(FeedController feedProvider) {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            const FeedViewDescription(
+            FeedViewDescription(
+              videoRid: '',
               videoRestaurantName: '',
               videoRestaurantAddress: '',
             ),

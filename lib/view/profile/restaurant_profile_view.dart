@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:snack_ads/controller/restaurant_controller.dart';
+import 'package:snack_ads/model/restaurant.dart';
 
 class RestaurantProfileView extends StatelessWidget {
-  const RestaurantProfileView({super.key});
+  String restaurantRid;
+  RestaurantProfileView({
+    super.key,
+    required this.restaurantRid,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<RestaurantController>(context);
+
     String mockName = "금수저삼겹679양덕점";
     String mockAddress = "경북 포항시 북구 천마로 78";
     List<String> mockTags = ["포항", "고기", "가성비", "한식"];
@@ -14,30 +22,28 @@ class RestaurantProfileView extends StatelessWidget {
     String phoneNumber = "054-232-5790";
     String openTime = "매일 15:00 ~ 23:00";
 
+    Restaurant current = controller.loadRestaurant(restaurantRid);
+
     return Scaffold(
       backgroundColor: const Color(0xFFf8f8fa),
-      appBar: AppBar(
-        title: Text(mockName),
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFf8f8fa),
-        foregroundColor: Colors.black,
-        actions: [
-          IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: const Icon(Icons.clear),
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
               Row(
-                children: mockTags.map((tag) => tagBox(tag)).toList(),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    current.name,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: current.tagList.map((tag) => tagBox(tag)).toList(),
               ),
               const SizedBox(height: 20),
               Container(
@@ -49,7 +55,7 @@ class RestaurantProfileView extends StatelessWidget {
                       Row(
                         children: [
                           const Icon(Icons.access_time),
-                          const Text("영업시간 "),
+                          const Text(" 영업시간 "),
                           Text(openTime),
                         ],
                       ),
@@ -57,8 +63,8 @@ class RestaurantProfileView extends StatelessWidget {
                       Row(
                         children: [
                           const Icon(Icons.phone),
-                          const Text("전화번호 "),
-                          Text(phoneNumber),
+                          const Text(" 전화번호 "),
+                          Text(current.phone),
                         ],
                       ),
                     ],
@@ -70,7 +76,7 @@ class RestaurantProfileView extends StatelessWidget {
                 children: [
                   const Icon(Icons.location_pin),
                   const Text("주소 "),
-                  Text(mockAddress),
+                  Text(current.address),
                 ],
               ),
               Container(
@@ -98,16 +104,16 @@ class RestaurantProfileView extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget tagBox(String tag) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      margin: const EdgeInsets.only(right: 5),
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Text(tag),
-    );
-  }
+Widget tagBox(String tag) {
+  return Container(
+    padding: const EdgeInsets.all(5),
+    margin: const EdgeInsets.only(right: 5),
+    decoration: BoxDecoration(
+      color: Colors.grey[300],
+      borderRadius: BorderRadius.circular(5),
+    ),
+    child: Text(tag),
+  );
 }

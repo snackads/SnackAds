@@ -2,14 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:snack_ads/view/profile/restaurant_profile_view.dart';
 
 class FeedViewDescription extends StatelessWidget {
+  String videoRid;
   final String videoRestaurantName;
   final String videoRestaurantAddress;
-  const FeedViewDescription({
+  FeedViewDescription({
     super.key,
+    required this.videoRid,
     required this.videoRestaurantName,
     required this.videoRestaurantAddress,
   });
@@ -30,8 +31,12 @@ class FeedViewDescription extends StatelessWidget {
                 log('Restaurant Name Clicked');
                 showCupertinoModalPopup(
                   context: context,
+                  useRootNavigator: false,
                   builder: (context) {
-                    return const RestaurantProfileView();
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.9,
+                      child: RestaurantProfileView(restaurantRid: videoRid),
+                    );
                   },
                 );
               },
