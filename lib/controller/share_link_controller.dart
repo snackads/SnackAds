@@ -8,7 +8,7 @@ class SharedLinkController with ChangeNotifier {
 
   void Function()? isURLExist;
 
-  Future<String> createDynamicLink(String videoId) async {
+  Future<Uri> createDynamicLink(String videoId) async {
     parameters = DynamicLinkParameters(
       uriPrefix: 'https://snackads.page.link',
       link: Uri.parse('https://snackads.page.link/videos/$videoId'),
@@ -25,12 +25,7 @@ class SharedLinkController with ChangeNotifier {
     final ShortDynamicLink shortLink =
         await FirebaseDynamicLinks.instance.buildShortLink(parameters);
     dev.log(shortLink.shortUrl.toString());
-    return shortLink.shortUrl.toString();
-  }
-
-  void shareVideoLink(String videoId) async {
-    //Uri dynamicLink = await createDynamicLink(videoId);
-    //print(dynamicLink.toString());
+    return shortLink.shortUrl;
   }
 
   void updateLink(String url) {

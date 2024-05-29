@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
 import 'package:snack_ads/controller/share_link_controller.dart';
 import 'package:snack_ads/model/app_user.dart';
@@ -24,8 +25,10 @@ class FeedColumnButtons extends StatelessWidget {
         //  share
         columnButtonsComponent('공유',
             Icon(FontAwesomeIcons.share, size: 25, color: Colors.grey[300]),
-            () {
-          shareLinkProvider.createDynamicLink(video.shortFormSid);
+            () async {
+          shareLinkProvider
+              .createDynamicLink(video.shortFormSid)
+              .then((value) => {Share.shareUri(value)});
         }),
         //  like
         columnButtonsComponent(

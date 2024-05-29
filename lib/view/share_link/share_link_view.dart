@@ -14,6 +14,7 @@ class ShareLinkPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('공유된 영상'),
+        backgroundColor: Colors.black,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () {
