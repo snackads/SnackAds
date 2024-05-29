@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/authentication_controller.dart';
 import 'package:snack_ads/controller/bottom_navigation_controller.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
-import 'package:snack_ads/controller/share_link_controller.dart';
+import 'package:snack_ads/controller/shared_link_controller.dart';
 import 'package:snack_ads/view/feed/feed_view.dart';
 import 'package:snack_ads/view/feed_upload/feed_upload_select_view.dart';
 import 'package:snack_ads/view/map/map_view.dart';

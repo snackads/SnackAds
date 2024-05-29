@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:snack_ads/controller/share_link_controller.dart';
+import 'package:snack_ads/controller/shared_feed_controller.dart';
+import 'package:snack_ads/controller/shared_link_controller.dart';
 
-class ShareLinkPage extends StatelessWidget {
-  const ShareLinkPage({super.key});
+class ShareLinkPage extends StatefulWidget {
+  final SharedFeedControllor sharedFeedControllor;
+  final SharedLinkController sharedLinkController;
+  const ShareLinkPage(
+      {super.key,
+      required this.sharedFeedControllor,
+      required this.sharedLinkController});
+
+  @override
+  State<ShareLinkPage> createState() => _ShareLinkPageState();
+}
+
+class _ShareLinkPageState extends State<ShareLinkPage> {
+  @override
+  void initState() {
+    widget.sharedFeedControllor.loadVideo(widget.sharedLinkController.videoURL);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.sharedFeedControllor.disposeVideoController();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    SharedLinkController sharedLinkController =
-        Provider.of<SharedLinkController>(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('공유된 영상'),
+        title: Text(widget.sharedFeedControllor.video.restaurantName),
         backgroundColor: Colors.black,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -34,7 +53,7 @@ class ShareLinkPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text(sharedLinkController.videoURL),
+          Text('wow'),
         ],
       ),
     );

@@ -9,7 +9,8 @@ import 'package:snack_ads/controller/edit_controller.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
 import 'package:snack_ads/controller/register_controller.dart';
 import 'package:snack_ads/controller/restaurant_controller.dart';
-import 'package:snack_ads/controller/share_link_controller.dart';
+import 'package:snack_ads/controller/shared_feed_controller.dart';
+import 'package:snack_ads/controller/shared_link_controller.dart';
 import 'package:snack_ads/view/share_link/share_link_view.dart';
 import 'controller/authentication_controller.dart';
 import 'controller/bottom_navigation_controller.dart';
@@ -46,6 +47,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => FeedReportController()),
         ChangeNotifierProvider(create: (context) => RestaurantController()),
         ChangeNotifierProvider(create: (context) => SharedLinkController()),
+        ChangeNotifierProvider(create: (context) => SharedFeedControllor()),
       ],
       builder: ((context, child) => const App()),
     ),

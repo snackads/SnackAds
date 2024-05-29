@@ -27,4 +27,15 @@ class ShortForm {
     await controller?.initialize();
     controller?.setLooping(true);
   }
+
+  factory ShortForm.defaultShortForm() {
+    return ShortForm(
+        uploadedAt: Timestamp.now(),
+        restaurantName: '',
+        restaurantAddress: '',
+        restaurantRid: '',
+        videoURL: '',
+        shortFormSid: '',
+        likes: 0);
+  }
 }

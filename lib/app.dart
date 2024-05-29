@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/feed_upload_controller.dart';
-import 'package:snack_ads/controller/share_link_controller.dart';
+import 'package:snack_ads/controller/shared_feed_controller.dart';
+import 'package:snack_ads/controller/shared_link_controller.dart';
 import 'package:snack_ads/view/auth/login_view.dart';
 import 'package:snack_ads/view/auth/registration_view.dart';
 import 'package:snack_ads/view/feed_upload/feed_upload_detail_view.dart';
@@ -19,6 +20,7 @@ import 'package:snack_ads/view/share_link/share_link_view.dart';
 import 'dart:developer' as dev;
 
 late SharedLinkController sharedLinkController;
+late SharedFeedControllor sharedFeedControllor;
 late FeedUploadController feedUploadController;
 
 class App extends StatefulWidget {
@@ -38,7 +40,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     sharedLinkController = Provider.of<SharedLinkController>(context);
-
+    sharedFeedControllor = Provider.of<SharedFeedControllor>(context);
     feedUploadController = Provider.of<FeedUploadController>(context);
     return MaterialApp.router(
       title: "SnackAds",
@@ -118,7 +120,10 @@ final _router = GoRouter(
     ),
     GoRoute(
       path: '/sharedLink',
-      builder: (context, state) => const ShareLinkPage(),
+      builder: (context, state) => ShareLinkPage(
+        sharedFeedControllor: sharedFeedControllor,
+        sharedLinkController: sharedLinkController,
+      ),
     )
   ],
 );
