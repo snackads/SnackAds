@@ -44,16 +44,20 @@ class SharedFeedControllor with ChangeNotifier {
   void loadAndPlayVideo() async {
     //  현재 영상 재생
     if (video.controller == null) {
-      await video.loadController().then((value) {
-        video.controller!.play();
-      });
+      await video.loadController();
+      video.controller!.play();
+      notifyListeners();
+
       dev.log('공유 영상 컨트롤러 load');
     }
   }
 
   void disposeVideoController() {
-    video.controller!.pause();
-    video.controller!.dispose();
-    video.controller = null;
+    if (video.controller != null) {
+      video.controller!.pause();
+      video.controller!.dispose();
+      video.controller = null;
+    }
+    video = ShortForm.defaultShortForm();
   }
 }
