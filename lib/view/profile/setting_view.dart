@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/authentication_controller.dart';
+import 'package:snack_ads/widget/dialog_button.dart';
 
 class SettingView extends StatelessWidget {
   const SettingView({super.key});
@@ -68,7 +70,25 @@ class SettingView extends StatelessWidget {
                     trailing: const Icon(Icons.arrow_forward_ios),
                     title: const Text('Log Out'),
                     onTap: () {
-                      auth.signOut();
+                      showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (context) {
+                          return DialogButton(
+                            title: "로그아웃",
+                            content: "정말 로그아웃 할거니?",
+                            confirmButtonText: "Log Out",
+                            onConfirmAction: () {
+                              auth.signOut();
+                            },
+                            cancelButtonText: "Cancel",
+                            onCancelAction: () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        },
+                      );
+                      // auth.signOut();
                     },
                   ),
                 ],

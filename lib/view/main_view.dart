@@ -10,6 +10,7 @@ import 'package:snack_ads/view/feed/feed_view.dart';
 import 'package:snack_ads/view/feed_upload/feed_upload_select_view.dart';
 import 'package:snack_ads/view/map/map_view.dart';
 import 'package:snack_ads/view/profile/profile_view.dart';
+import 'package:snack_ads/view/profile/restaurant_profile_view.dart';
 // import 'package:snack_ads/map/map_view.dart';
 
 class MainView extends StatelessWidget {
