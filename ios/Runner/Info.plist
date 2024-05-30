@@ -28,7 +28,6 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<!-- Start of the Google Sign-in Section -->
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -40,7 +39,6 @@
 			</array>
 		</dict>
 	</array>
-	<!-- End of the Google Sign-in Section -->
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -64,5 +62,18 @@
 	<string>사진 촬영을 위해 카메라에 접근합니다.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>음성 녹음을 위해 마이크에 접근합니다.</string>
+	<key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>snackads</string>
+            </array>
+        </dict>
+    </array>
+    <key>FirebaseDynamicLinksCustomDomains</key>
+    <array>
+        <string>https://snackads.page.link</string>
+    </array>
 </dict>
 </plist>

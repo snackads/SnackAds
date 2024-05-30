@@ -17,6 +17,7 @@ class LoginView extends StatelessWidget {
       dev.log('User is logged in', name: "isUserLoggedIn");
       Provider.of<BottomNavigationController>(context, listen: false)
           .changeTabIndex(0);
+
       context.go('/main');
     };
 
