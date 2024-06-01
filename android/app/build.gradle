@@ -34,7 +34,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.example.snack_ads"
-    compileSdk flutter.compileSdkVersion
+    compileSdk compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {

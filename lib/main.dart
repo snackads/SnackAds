@@ -39,6 +39,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => FeedUploadController()),
         ChangeNotifierProvider(create: (context) => FeedReportController()),
         ChangeNotifierProvider(create: (context) => RestaurantController()),
+        // ChangeNotifierProvider(create: (context) => MapController())
       ],
       builder: ((context, child) => const App()),
     ),
