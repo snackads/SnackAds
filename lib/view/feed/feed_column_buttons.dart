@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
+import 'package:snack_ads/controller/shared_link_controller.dart';
 import 'package:snack_ads/model/app_user.dart';
 import 'package:snack_ads/model/shortform.dart';
 import 'package:snack_ads/view/feed/feed_column_buttons_components.dart';
@@ -13,15 +16,20 @@ class FeedColumnButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SharedLinkController shareLinkProvider =
+        Provider.of<SharedLinkController>(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         //  share
-        columnButtonsComponent(
-            '공유',
+        columnButtonsComponent('공유',
             Icon(FontAwesomeIcons.share, size: 25, color: Colors.grey[300]),
-            () {}),
+            () async {
+          shareLinkProvider
+              .createDynamicLink(video.shortFormSid)
+              .then((value) => {Share.shareUri(value)});
+        }),
         //  like
         columnButtonsComponent(
             numOfLikes(video.likes),

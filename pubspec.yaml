@@ -37,6 +37,8 @@ dependencies:
   flutter_naver_map: ^1.2.2
   geolocator: ^11.0.0
   image_picker: ^1.1.1
+  firebase_dynamic_links: ^5.5.7
+  share_plus: ^7.2.2
   geocoding: ^3.0.0
 
 dev_dependencies:
