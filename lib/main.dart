@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:snack_ads/app.dart';
 import 'package:snack_ads/controller/edit_controller.dart';
 import 'package:snack_ads/controller/feed_controller.dart';
+import 'package:snack_ads/controller/map_controller.dart';
 import 'package:snack_ads/controller/register_controller.dart';
 import 'package:snack_ads/controller/restaurant_controller.dart';
 import 'controller/authentication_controller.dart';
@@ -39,7 +40,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => FeedUploadController()),
         ChangeNotifierProvider(create: (context) => FeedReportController()),
         ChangeNotifierProvider(create: (context) => RestaurantController()),
-        // ChangeNotifierProvider(create: (context) => MapController())
+        ChangeNotifierProvider(create: (context) => MapProvider())
       ],
       builder: ((context, child) => const App()),
     ),

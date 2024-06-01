@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:snack_ads/controller/map_controller.dart';
 
 class MapView extends StatefulWidget {
   const MapView({super.key});
@@ -23,8 +24,11 @@ class _MapViewState extends State<MapView> {
   void initState() {
     super.initState();
     _getCurrentPosition();
+    final mapProvider = Provider.of<MapProvider>(context, listen: false);
+    mapProvider.fetchRestaurantsFromFirestore(); // Firestore에서 식당 정보 불러오기
   }
 
+  // 위치 권한을 확인하는 메서드
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -57,6 +61,7 @@ class _MapViewState extends State<MapView> {
     return true;
   }
 
+  // 현재 위치를 가져오는 메서드
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
 
@@ -70,108 +75,113 @@ class _MapViewState extends State<MapView> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF343945),
-      body: Center(
-          child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: _naverMapSection())),
+  // 식당 정보 카드를 빌드하는 메서드
+  Widget _buildRestaurantCard(MapProvider mapProvider) {
+    if (mapProvider.selectedRestaurant == null) {
+      return SizedBox.shrink(); // 선택된 식당이 없는 경우 빈 공간 반환
+    }
+
+    final restaurant = mapProvider.selectedRestaurant!;
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Card(
+        margin: EdgeInsets.all(16.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                restaurant['name'] ?? 'Unknown',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Address: ${restaurant['address'] ?? 'N/A'}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Description: ${restaurant['description'] ?? 'N/A'}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Phone: ${restaurant['phone'] ?? 'N/A'}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Latitude: ${restaurant['latitude']}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Longitude: ${restaurant['longitude']}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Tags: ${(restaurant['tagList'] as List<dynamic>).join(', ')}',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Future<List<NMarker>> _fetchMarkersFromFirestore() async {
-    List<NMarker> markers = [];
+  @override
+  Widget build(BuildContext context) {
+    final mapProvider = Provider.of<MapProvider>(context);
 
-    try {
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('restaurants').get();
-
-      log("Firestore returned ${querySnapshot.docs.length} documents");
-
-      for (var doc in querySnapshot.docs) {
-        var data = doc.data() as Map<String, dynamic>;
-
-        log("Document data: $data");
-
-        NOverlayCaption caption = NOverlayCaption(
-          text: data['name'] ?? 'Unknown',
-        );
-
-        NMarker marker = NMarker(
-          id: data['rid'],
-          position: NLatLng(data['latitude'], data['longitude']),
-          caption: caption,
-        );
-
-        markers.add(marker);
+    Widget _buildNaverMap() {
+      if (_currentPosition == null) {
+        return Center(child: CircularProgressIndicator()); // 현재 위치를 가져오는 중인 경우
       }
-    } catch (e) {
-      log('Error fetching markers from Firestore: $e');
-    }
 
-    return markers;
-  }
-
-  Widget _naverMapSection() {
-    if (_currentPosition == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    return FutureBuilder<List<NMarker>>(
-      future: _fetchMarkersFromFirestore(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          log("No restaurant markers found");
-          return const Center(child: Text('No restaurants found'));
-        }
-
-        List<NMarker> markers = snapshot.data!;
-
-        return NaverMap(
-          options: NaverMapViewOptions(
-            initialCameraPosition: NCameraPosition(
-              target: NLatLng(
-                  _currentPosition!.latitude, _currentPosition!.longitude),
-              zoom: 17,
-              bearing: 0,
-              tilt: 0,
-            ),
-            indoorEnable: true,
-            locationButtonEnable: true,
-            consumeSymbolTapEvents: false,
+      return NaverMap(
+        key: mapProvider.mapKey,
+        options: NaverMapViewOptions(
+          locationButtonEnable: true,
+          initialCameraPosition: NCameraPosition(
+            target: NLatLng(
+                _currentPosition!.latitude, _currentPosition!.longitude),
+            zoom: 15,
           ),
-          onMapReady: (controller) async {
-            mapController = controller;
-            mapControllerCompleter.complete(controller);
-            log("onMapReady", name: "onMapReady");
+        ),
+        onMapReady: (controller) {
+          mapControllerCompleter.complete(controller);
+          mapController = controller;
 
-            // Add current location marker
-            final currentLocationMarker = NMarker(
-              id: 'current_location',
-              position: NLatLng(
-                  _currentPosition!.latitude, _currentPosition!.longitude),
+          for (var restaurant in mapProvider.restaurants) {
+            final marker = NMarker(
+              id: restaurant['rid'], // 식별을 위해 rid 사용
+              position:
+                  NLatLng(restaurant['latitude'], restaurant['longitude']),
+              caption: NOverlayCaption(text: restaurant['name']),
+
+              // onTap: (NMarker marker, Map<String, int> iconSize) async {
+              //   await mapProvider.fetchRestaurantDetails(restaurant['rid']);
+              // },
             );
-            controller.addOverlay(currentLocationMarker);
 
-            // Add restaurant markers
-            controller.addOverlayAll(markers.toSet());
+            controller.addOverlay(marker);
+          }
+        },
+        onMapTapped: (NPoint point, NLatLng latLng) {
+          mapProvider.selectedRestaurant = null;
+          mapProvider.notifyListeners(); // 지도를 탭하면 카드 숨기기
+        },
+      );
+    }
 
-            // Optionally, open info window for each marker
-            for (var marker in markers) {
-              final onMarkerInfoWindow = NInfoWindow.onMarker(
-                  id: marker.info.id, text: marker.caption!.text);
-              marker.openInfoWindow(onMarkerInfoWindow);
-            }
-          },
-        );
-      },
+    return Scaffold(
+      body: Stack(
+        children: [
+          _buildNaverMap(),
+          _buildRestaurantCard(mapProvider), // 식당 정보 카드 추가
+        ],
+      ),
     );
   }
 }
