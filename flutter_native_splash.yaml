@@ -1,0 +1,11 @@
+flutter_native_splash:
+  color: "#CD9341"
+  image: assets/logo/app_logo_1152px.png
+
+  # From Android 12 onwards, the splash screen is handled differently than in previous versions.
+  # Please visit https://developer.android.com/guide/topics/ui/splash-screen
+  # Following are specific parameters for Android 12+.
+  android_12:
+    color: "#CD9341"
+    image: assets/logo/app_logo_1152px.png
+    

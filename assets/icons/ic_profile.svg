@@ -1,0 +1,7 @@
+<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="14" cy="8" r="4.75" stroke="#50555C" stroke-width="2.5"/>
+<mask id="path-2-inside-1_123_3333" fill="white">
+<path d="M3 22C3 18.6863 5.68629 16 9 16H19C22.3137 16 25 18.6863 25 22V24C25 25.1046 24.1046 26 23 26H5C3.89543 26 3 25.1046 3 24V22Z"/>
+</mask>
+<path d="M3 22C3 18.6863 5.68629 16 9 16H19C22.3137 16 25 18.6863 25 22V24C25 25.1046 24.1046 26 23 26H5C3.89543 26 3 25.1046 3 24V22Z" stroke="#50555C" stroke-width="5" mask="url(#path-2-inside-1_123_3333)"/>
+</svg>
