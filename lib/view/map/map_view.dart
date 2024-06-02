@@ -76,59 +76,59 @@ class _MapViewState extends State<MapView> {
   }
 
   // 식당 정보 카드를 빌드하는 메서드
-  // Widget _buildRestaurantCard(MapProvider mapProvider) {
-  //   if (mapProvider.selectedRestaurant == null) {
-  //     return SizedBox.shrink(); // 선택된 식당이 없는 경우 빈 공간 반환
-  //   }
+  Widget _buildRestaurantCard(MapProvider mapProvider) {
+    if (mapProvider.selectedRestaurant == null) {
+      return SizedBox.shrink(); // 선택된 식당이 없는 경우 빈 공간 반환
+    }
 
-  //   final restaurant = mapProvider.selectedRestaurant!;
-  //   return Positioned(
-  //     bottom: 0,
-  //     left: 0,
-  //     right: 0,
-  //     child: Card(
-  //       margin: EdgeInsets.all(16.0),
-  //       child: Padding(
-  //         padding: const EdgeInsets.all(16.0),
-  //         child: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Text(
-  //               restaurant['name'] ?? 'Unknown',
-  //               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-  //             ),
-  //             SizedBox(height: 8),
-  //             Text(
-  //               'Address: ${restaurant['address'] ?? 'N/A'}',
-  //               style: TextStyle(fontSize: 16),
-  //             ),
-  //             Text(
-  //               'Description: ${restaurant['description'] ?? 'N/A'}',
-  //               style: TextStyle(fontSize: 16),
-  //             ),
-  //             Text(
-  //               'Phone: ${restaurant['phone'] ?? 'N/A'}',
-  //               style: TextStyle(fontSize: 16),
-  //             ),
-  //             Text(
-  //               'Latitude: ${restaurant['latitude']}',
-  //               style: TextStyle(fontSize: 16),
-  //             ),
-  //             Text(
-  //               'Longitude: ${restaurant['longitude']}',
-  //               style: TextStyle(fontSize: 16),
-  //             ),
-  //             Text(
-  //               'Tags: ${(restaurant['tagList'] as List<dynamic>).join(', ')}',
-  //               style: TextStyle(fontSize: 16),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+    final restaurant = mapProvider.selectedRestaurant!;
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Card(
+        margin: EdgeInsets.all(16.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                restaurant['name'] ?? 'Unknown',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Address: ${restaurant['address'] ?? 'N/A'}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Description: ${restaurant['description'] ?? 'N/A'}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Phone: ${restaurant['phone'] ?? 'N/A'}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Latitude: ${restaurant['latitude']}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Longitude: ${restaurant['longitude']}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Tags: ${(restaurant['tagList'] as List<dynamic>).join(', ')}',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +179,7 @@ class _MapViewState extends State<MapView> {
       body: Stack(
         children: [
           _buildNaverMap(),
-          // _buildRestaurantCard(mapProvider), // 식당 정보 카드 추가
+          _buildRestaurantCard(mapProvider), // 식당 정보 카드 추가
         ],
       ),
     );
