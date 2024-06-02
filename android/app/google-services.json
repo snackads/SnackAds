@@ -12,7 +12,44 @@
           "package_name": "com.example.snack_ads"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "400921458015-a1jsvp7c8sgnump3t0uqk0uhvu4h193t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.snack_ads",
+            "certificate_hash": "796d9522911cd2061d6fe7502de2e9ead84c21b4"
+          }
+        },
+        {
+          "client_id": "400921458015-ejaf4lkk8oe7e6hrikhk62q3a4sfa3r1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.snack_ads",
+            "certificate_hash": "f01ba3e8c8b8acfad742d2668e7cc7bd40343ff2"
+          }
+        },
+        {
+          "client_id": "400921458015-ii17hk88qjqurdogi7spe3cfs0d3u4pq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.snack_ads",
+            "certificate_hash": "082a96cd4ccc51c45d99a3f4f989da48ab937131"
+          }
+        },
+        {
+          "client_id": "400921458015-t79fj1vrapfd0rbhtl9dg0h2hn58ab4r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.snack_ads",
+            "certificate_hash": "7e24c0060ef0f39d6f9ad7fe8acd206d30aba0d6"
+          }
+        },
+        {
+          "client_id": "400921458015-r8d5c5d9k6185v4pato7jf77i16df59i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBtB4TLAbQFg-oLQCb7jLALatHVDYlRLg4"
@@ -20,7 +57,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400921458015-r8d5c5d9k6185v4pato7jf77i16df59i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "400921458015-94q5q29mi9hn43kof4ohq3dsjhrj0j0m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.snackAds"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400921458015:android:f1640636b1a497956f32ea",
+        "android_client_info": {
+          "package_name": "com.snackads.snack_ads"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400921458015-r8d5c5d9k6185v4pato7jf77i16df59i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtB4TLAbQFg-oLQCb7jLALatHVDYlRLg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400921458015-r8d5c5d9k6185v4pato7jf77i16df59i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "400921458015-94q5q29mi9hn43kof4ohq3dsjhrj0j0m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.snackAds"
+              }
+            }
+          ]
         }
       }
     }

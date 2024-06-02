@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart' as foundation;
@@ -7,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/authentication_controller.dart';
 import 'package:snack_ads/util/text_style_manager.dart';
 import 'package:snack_ads/widget/round_corner_container.dart';
-import 'package:snack_ads/widget/snackbars/info_snackbar.dart';
 import '../../../util/color_manager.dart';
 
 class InputSignInPage extends StatefulWidget {
@@ -213,17 +210,7 @@ class _InputSignInPageState extends State<InputSignInPage> {
                           borderColor: ColorManager.primary100,
                           color: ColorManager.primary100,
                           child: InkWell(
-                            onTap: () async {
-                              try {
-                                await _loginHandler();
-                              } catch (e) {
-                                log(e.toString());
-                                if (context.mounted) {
-                                  infoSnackBar(
-                                      context: context, msg: "로그인에 실패하였습니다.");
-                                }
-                              }
-                            },
+                            onTap: _loginHandler,
                             child: Container(
                               height: 56,
                               alignment: Alignment.center,

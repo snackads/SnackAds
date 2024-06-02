@@ -1,4 +1,4 @@
-package com.example.snack_ads
+package com.snackads.snack_ads
 
 import io.flutter.embedding.android.FlutterActivity
 

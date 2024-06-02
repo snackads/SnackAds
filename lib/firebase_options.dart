@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBtB4TLAbQFg-oLQCb7jLALatHVDYlRLg4',
-    appId: '1:400921458015:android:ca76929cf4a134186f32ea',
+    appId: '1:400921458015:android:f1640636b1a497956f32ea',
     messagingSenderId: '400921458015',
     projectId: 'snackads-b36c2',
     storageBucket: 'snackads-b36c2.appspot.com',
@@ -70,6 +70,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '400921458015',
     projectId: 'snackads-b36c2',
     storageBucket: 'snackads-b36c2.appspot.com',
+    androidClientId: '400921458015-a1jsvp7c8sgnump3t0uqk0uhvu4h193t.apps.googleusercontent.com',
+    iosClientId: '400921458015-94q5q29mi9hn43kof4ohq3dsjhrj0j0m.apps.googleusercontent.com',
     iosBundleId: 'com.example.snackAds',
   );
+
 }

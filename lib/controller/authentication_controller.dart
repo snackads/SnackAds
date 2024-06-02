@@ -55,6 +55,8 @@ class AuthenticationController with ChangeNotifier {
 
   // apple 로그인
   Future<void> signInWithApple({required BuildContext context}) async {
+    //appstoreconnect에서 configuration 필요. 아래 링크 참고 바람.
+    //https://velog.io/@s_soo100/Flutter-Firebase%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%95%A0%ED%94%8C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-Apple-Sign-in-With-Firebase
     String sha256ofString(String input) {
       final bytes = utf8.encode(input);
       final digest = sha256.convert(bytes);
