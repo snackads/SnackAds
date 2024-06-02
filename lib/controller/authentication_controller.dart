@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'dart:developer' as dev;
 
 import 'package:snack_ads/model/app_user.dart';
+import 'package:snack_ads/widget/snackbars/info_snackbar.dart';
 
 class AuthenticationController with ChangeNotifier {
   User? _user;
@@ -34,8 +39,55 @@ class AuthenticationController with ChangeNotifier {
     });
   }
 
+  Future<void> signInWithEmailAndPassword({
+    required BuildContext context,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      _auth.signInWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      dev.log(e.toString());
+      if (!context.mounted) return;
+      infoSnackBar(context: context, msg: "로그인에 실패하였습니다.");
+    }
+  }
+
+  // apple 로그인
+  Future<void> signInWithApple({required BuildContext context}) async {
+    String sha256ofString(String input) {
+      final bytes = utf8.encode(input);
+      final digest = sha256.convert(bytes);
+      return digest.toString();
+    }
+
+    try {
+      final rawNonce = generateNonce();
+      final nonce = sha256ofString(rawNonce);
+
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
+
+      await _auth.signInWithCredential(oauthCredential);
+    } catch (err) {
+      dev.log('err : $err');
+      if (!context.mounted) return;
+      infoSnackBar(context: context, msg: "로그인에 실패하였습니다.");
+    }
+  }
+
   // Google 로그인
-  Future<void> signInWithGoogle() async {
+  Future<void> signInWithGoogle({required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
@@ -57,6 +109,8 @@ class AuthenticationController with ChangeNotifier {
       }
     } catch (e) {
       dev.log(e.toString(), name: 'AuthenticationController.signInWithGoogle');
+      if (!context.mounted) return;
+      infoSnackBar(context: context, msg: "로그인에 실패하였습니다.");
     }
   }
 

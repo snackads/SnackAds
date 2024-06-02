@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:snack_ads/controller/feed_upload_controller.dart';
 import 'package:snack_ads/controller/shared_feed_controller.dart';
 import 'package:snack_ads/controller/shared_link_controller.dart';
+import 'package:snack_ads/view/auth/email/input_sign_in_page.dart';
 import 'package:snack_ads/view/auth/login_view.dart';
 import 'package:snack_ads/view/auth/registration_view.dart';
 import 'package:snack_ads/view/feed_upload/feed_upload_detail_view.dart';
@@ -89,6 +90,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/main',
       builder: (context, state) => MainView(),
+    ),
+    GoRoute(
+      path: '/email',
+      builder: (context, state) => const InputSignInPage(),
     ),
     GoRoute(
       path: '/register',
