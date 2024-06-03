@@ -233,9 +233,14 @@ class _FeedUploadDetailViewState extends State<FeedUploadDetailView> {
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  feedUploadController.restaurant.address,
-                  style: const TextStyle(fontSize: 15, color: Colors.grey),
+                SizedBox(
+                  width: 150,
+                  child: Text(
+                    feedUploadController.restaurant.address,
+                    style: const TextStyle(fontSize: 13, color: Colors.grey),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),

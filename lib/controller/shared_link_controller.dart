@@ -13,7 +13,7 @@ class SharedLinkController with ChangeNotifier {
       uriPrefix: 'https://snackads.page.link',
       link: Uri.parse('https://snackads.page.link/videos/$videoId'),
       androidParameters: const AndroidParameters(
-        packageName: 'com.example.snack_ads',
+        packageName: 'com.snackads.snack_ads',
         minimumVersion: 0,
       ),
       iosParameters: const IOSParameters(
