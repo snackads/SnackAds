@@ -86,11 +86,12 @@ class RegistrationView extends StatelessWidget {
                 ),
                 TextField(
                   controller: registerController.nameController,
+                  keyboardType: TextInputType.name,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    registerController.nameController.text = value;
+                    // registerController.nameController.text = value;
                   },
                 ),
 
@@ -128,7 +129,7 @@ class RegistrationView extends StatelessWidget {
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    registerController.nicknameController.text = value;
+                    // registerController.nicknameController.text = value;
                   },
                 ),
 
@@ -153,7 +154,7 @@ class RegistrationView extends StatelessWidget {
                     hintText: "'-' 없이 작성해주세요 (예: 01012345678)",
                   ),
                   onChanged: (value) {
-                    registerController.phoneController.text = value;
+                    // registerController.phoneController.text = value;
                   },
                 ),
 
@@ -185,50 +186,6 @@ class RegistrationView extends StatelessWidget {
                     ),
                   ],
                 ),
-                // 드롭다운 형식으로 "점주", "사용자" 선택하게 해줘
-                DropdownButton<String>(
-                  value: registerController.roleController.text,
-                  icon: const Icon(Icons.arrow_downward),
-                  iconSize: 16,
-                  isExpanded: true,
-                  onChanged: (value) {
-                    dev.log(value ?? "null", name: "Dropdown");
-                    if (value != null) {
-                      registerController.setRole(value);
-                    } else {
-                      dev.log("value is null", name: "Role Selection");
-                    }
-                  },
-                  items: const [
-                    DropdownMenuItem(
-                      value: "--당신의 역할을 선택해주세요--",
-                      child: Text(
-                        "--당신의 역할을 선택해주세요--",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "점주",
-                      child: Text(
-                        "점주",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "사용자",
-                      child: Text(
-                        "사용자",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
@@ -245,9 +202,7 @@ class RegistrationView extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 if (registerController.nameController.text.isEmpty ||
-                    registerController.nicknameController.text.isEmpty ||
-                    registerController.roleController.text ==
-                        "--당신의 역할을 선택해주세요--") {
+                    registerController.nicknameController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(
@@ -269,7 +224,6 @@ class RegistrationView extends StatelessWidget {
                     "phone": registerController.phoneController.text == ""
                         ? null
                         : registerController.phoneController.text,
-                    "position": registerController.roleController.text,
                     "uploadedShortForms": List<String>.empty(),
                     "likedShortForms": List<String>.empty(),
                   };

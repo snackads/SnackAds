@@ -11,6 +11,7 @@ import 'dart:developer' as dev;
 
 import 'package:snack_ads/util/text_style_manager.dart';
 import 'package:snack_ads/widget/round_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -50,18 +51,22 @@ class LoginView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: RoundButton(
-                onTap: () => Platform.isIOS
-                    ? authenticationController.signInWithApple(context: context)
-                    : authenticationController.signInWithGoogle(
-                        context: context),
+                onTap: () =>
+                    authenticationController.signInWithGoogle(context: context),
+                // Platform.isIOS
+                // ? authenticationController.signInWithApple(context: context)
+                // : authenticationController.signInWithGoogle(context: context),
                 radius: 13,
-                text: Platform.isIOS ? 'Apple로 시작하기' : "구글로 시작하기",
-                color: Platform.isIOS
-                    ? ColorManager.black
-                    : ColorManager.googleLoginButtonBg,
-                headerImage: Platform.isIOS
-                    ? SvgPicture.asset('assets/icons/icon_apple.svg')
-                    : SvgPicture.asset('assets/icons/icon_google.svg'),
+                text: "구글로 시작하기",
+                // Platform.isIOS ? 'Apple로 시작하기' : "구글로 시작하기",
+                color: ColorManager.googleLoginButtonBg,
+                //   Platform.isIOS
+                // ? ColorManager.black
+                // : ColorManager.googleLoginButtonBg,
+                headerImage: SvgPicture.asset('assets/icons/icon_google.svg'),
+                //   Platform.isIOS
+                // ? SvgPicture.asset('assets/icons/icon_apple.svg')
+                // : SvgPicture.asset('assets/icons/icon_google.svg'),
                 isDarkTheme: true,
                 headerLeftPaddingSize: Platform.isIOS ? null : 2,
               ),
@@ -70,7 +75,7 @@ class LoginView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: RoundButton(
-                onTap: () => context.push('/email'),
+                onTap: () => context.push('/email/signIn'),
                 radius: 13,
                 text: '이메일로 시작하기',
                 color: ColorManager.grey01,
@@ -81,17 +86,30 @@ class LoginView extends StatelessWidget {
                 ),
                 isDarkTheme: false,
               ),
-            )
+            ),
+            TextButton(
+              onPressed: () => context.push('/email/signUp'),
+              child: Text(
+                "이메일 회원가입하기",
+                style: TextStyleManager.componentsUnderline,
+              ),
+            ),
           ],
         ),
       )),
       bottomNavigationBar: Container(
-        height: 24,
+        height: 36,
         alignment: Alignment.bottomCenter,
         margin: const EdgeInsets.only(bottom: 36),
-        child: Text(
-          '고객센터 문의하기',
-          style: TextStyleManager.componentsUnderline,
+        child: TextButton(
+          onPressed: () {
+            launchUrl(Uri.parse(
+                "https://puffy-vulcanodon-464.notion.site/SnackAds-178597b1a18d4c63b5f792112d1c7fcd"));
+          },
+          child: Text(
+            '고객센터 문의하기',
+            style: TextStyleManager.componentsUnderline,
+          ),
         ),
       ),
     );

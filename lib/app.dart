@@ -8,6 +8,7 @@ import 'package:snack_ads/controller/feed_upload_controller.dart';
 import 'package:snack_ads/controller/shared_feed_controller.dart';
 import 'package:snack_ads/controller/shared_link_controller.dart';
 import 'package:snack_ads/view/auth/email/input_sign_in_page.dart';
+import 'package:snack_ads/view/auth/email/input_sign_up_page.dart';
 import 'package:snack_ads/view/auth/login_view.dart';
 import 'package:snack_ads/view/auth/registration_view.dart';
 import 'package:snack_ads/view/feed_upload/feed_upload_detail_view.dart';
@@ -15,6 +16,7 @@ import 'package:snack_ads/view/feed_upload/feed_upload_video_view.dart';
 import 'package:snack_ads/view/main_view.dart';
 import 'package:snack_ads/view/profile/edit_view.dart';
 import 'package:snack_ads/view/profile/profile_view.dart';
+import 'package:snack_ads/view/profile/restaurant_profile_view.dart';
 import 'package:snack_ads/view/profile/setting_view.dart';
 import 'package:snack_ads/view/share_link/share_link_view.dart';
 
@@ -45,6 +47,7 @@ class _AppState extends State<App> {
     feedUploadController = Provider.of<FeedUploadController>(context);
     return MaterialApp.router(
       title: "SnackAds",
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
@@ -92,8 +95,12 @@ final _router = GoRouter(
       builder: (context, state) => MainView(),
     ),
     GoRoute(
-      path: '/email',
+      path: '/email/signIn',
       builder: (context, state) => const InputSignInPage(),
+    ),
+    GoRoute(
+      path: '/email/signUp',
+      builder: (context, state) => const InputSignUpPage(),
     ),
     GoRoute(
       path: '/register',
@@ -129,6 +136,13 @@ final _router = GoRouter(
         sharedFeedControllor: sharedFeedControllor,
         sharedLinkController: sharedLinkController,
       ),
+    ),
+    GoRoute(
+      path: '/restaurantProfile',
+      builder: (context, state) {
+        String restaurantId = state.extra as String;
+        return RestaurantProfileView(restaurantId: restaurantId);
+      },
     )
   ],
 );

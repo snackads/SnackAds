@@ -11,6 +11,8 @@ import 'package:video_player/video_player.dart';
 import 'dart:io';
 import 'dart:developer' as dev;
 
+// TODO: 전체 Restaurant를 불러오기보다 검색 기능을 추가하여 검색 결과만 불러오도록 수정해야합니다.
+
 class FeedUploadController extends ChangeNotifier {
   XFile? video;
   final ImagePicker picker = ImagePicker();
@@ -19,14 +21,15 @@ class FeedUploadController extends ChangeNotifier {
 
   List<Restaurant> allRestaurantList = [];
   Restaurant restaurant = Restaurant(
-    rid: '',
-    name: '',
-    description: '',
-    tagList: [''],
+    id: '',
+    place_name: '',
+    address_name: '',
     phone: '',
-    address: '',
-    siteURL: '',
-    imageURL: '',
+    place_url: '',
+    road_address_name: '',
+    x: '',
+    y: '',
+    tag_list: [],
   );
 
   Future getVideo(ImageSource imageSource, BuildContext context) async {
@@ -66,38 +69,38 @@ class FeedUploadController extends ChangeNotifier {
     videoController?.dispose();
   }
 
-  Future<void> getAllRestaurantList() async {
-    dev.log('가져와아아아아');
-    try {
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('restaurants').get();
-      allRestaurantList = querySnapshot.docs.map((doc) {
-        return Restaurant(
-          rid: doc.id,
-          name: doc['name'],
-          description: doc['name'],
-          tagList: List<String>.from(doc['tagList']),
-          phone: doc['phone'],
-          address: doc['address'],
-          siteURL: doc['siteURL'],
-          imageURL: doc['imageURL'],
-        );
-      }).toList();
-    } catch (e) {
-      dev.log('Error fetching restaurants: $e');
-    }
-    notifyListeners();
-  }
+  // Future<void> getAllRestaurantList() async {
+  //   dev.log('가져와아아아아');
+  //   try {
+  //     QuerySnapshot querySnapshot =
+  //         await FirebaseFirestore.instance.collection('restaurants').get();
+  //     allRestaurantList = querySnapshot.docs.map((doc) {
+  //       return Restaurant(
+  //         rid: doc.id,
+  //         name: doc['name'],
+  //         description: doc['name'],
+  //         tagList: List<String>.from(doc['tagList']),
+  //         phone: doc['phone'],
+  //         address: doc['address'],
+  //         siteURL: doc['siteURL'],
+  //         imageURL: doc['imageURL'],
+  //       );
+  //     }).toList();
+  //   } catch (e) {
+  //     dev.log('Error fetching restaurants: $e');
+  //   }
+  //   notifyListeners();
+  // }
 
   void updateRestaurantData(Restaurant selectedRestaurant) {
-    dev.log(selectedRestaurant.name);
+    dev.log(selectedRestaurant.place_name);
     restaurant = selectedRestaurant;
     notifyListeners();
   }
 
   void removeRestaurantData() {
     dev.log('지워!!!');
-    restaurant.rid = '';
+    restaurant.id = '';
   }
 
   Future<bool> uploadNewVideoToDB(Restaurant restaurantTemp) async {
@@ -105,11 +108,13 @@ class FeedUploadController extends ChangeNotifier {
       DocumentReference documentReference =
           FirebaseFirestore.instance.collection('shortFormVideos').doc();
       String documentId = documentReference.id;
+      List<dynamic> uploadedList = List.empty(growable: true);
+      uploadedList.add(documentId);
 
       AppUser().uploadedShortForms.add(documentId);
 
       FirebaseFirestore.instance.collection("users").doc(AppUser().uid).update({
-        'uploadedShortForms': FieldValue.arrayUnion([documentId])
+        'uploadedShortForms': FieldValue.arrayUnion(uploadedList),
       }).then((_) {
         dev.log('Document ID added to uploadedShortForms array');
       }).catchError((error) {
@@ -119,9 +124,9 @@ class FeedUploadController extends ChangeNotifier {
       uploadVideoToStorage(documentId).then((value) {
         documentReference.set({
           'uploadedAt': Timestamp.now(),
-          'restaurantName': restaurantTemp.name,
-          'restaurantAddress': restaurantTemp.address,
-          'restaurantRid': restaurantTemp.rid,
+          'restaurantName': restaurantTemp.place_name,
+          'restaurantAddress': restaurantTemp.address_name,
+          'restaurantRid': restaurantTemp.id,
           'videoURL': videoURL,
           'shortFormSid': documentId,
           'likes': 0,

@@ -13,6 +13,8 @@ import 'package:snack_ads/widget/snackbars/info_snackbar.dart';
 
 class AuthenticationController with ChangeNotifier {
   User? _user;
+  GoogleSignIn? googleSignIn;
+
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseFirestore.instance;
 
@@ -90,10 +92,9 @@ class AuthenticationController with ChangeNotifier {
 
   // Google 로그인
   Future<void> signInWithGoogle({required BuildContext context}) async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
+    googleSignIn = GoogleSignIn();
     try {
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-
+      final GoogleSignInAccount? googleUser = await googleSignIn!.signIn();
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth =
             await googleUser.authentication;
@@ -119,6 +120,9 @@ class AuthenticationController with ChangeNotifier {
   // 로그아웃
   Future<void> signOut() async {
     await _auth.signOut();
+    if (googleSignIn != null) {
+      await googleSignIn!.signOut();
+    }
     if (isUserLoggedOut != null) {
       isUserLoggedOut!();
     }

@@ -11,6 +11,8 @@ import 'package:snack_ads/view/feed/feed_view.dart';
 import 'package:snack_ads/view/feed_upload/feed_upload_select_view.dart';
 import 'package:snack_ads/view/map/map_view.dart';
 import 'package:snack_ads/view/profile/profile_view.dart';
+import 'package:snack_ads/view/search/search_place.dart';
+import 'package:snack_ads/view/search/search_view.dart';
 // import 'package:snack_ads/map/map_view.dart';
 
 class MainView extends StatelessWidget {
@@ -30,7 +32,7 @@ class MainView extends StatelessWidget {
       case 2:
         return const FeedUploadSelectView();
       case 3:
-        return Container(color: Colors.blue);
+        return const SearchView();
       case 4:
         return const ProfileView();
       default:
@@ -67,8 +69,8 @@ class MainView extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           backgroundColor: Colors.black,
-          icon: Icon(FontAwesomeIcons.solidHeart),
-          label: 'Favorite',
+          icon: Icon(FontAwesomeIcons.magnifyingGlass),
+          label: 'Search',
         ),
         BottomNavigationBarItem(
           backgroundColor: Colors.black,

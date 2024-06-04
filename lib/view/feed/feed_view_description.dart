@@ -35,7 +35,7 @@ class FeedViewDescription extends StatelessWidget {
                   builder: (context) {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.9,
-                      child: RestaurantProfileView(restaurantRid: videoRid),
+                      child: RestaurantProfileView(restaurantId: videoRid),
                     );
                   },
                 );
