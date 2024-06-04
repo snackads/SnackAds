@@ -1,68 +1,91 @@
+// ignore_for_file: non_constant_identifier_names
+
 class Restaurant {
-  String rid;
-  String name;
-  String description;
-  List<String> tagList;
+  String id;
+  String place_name;
+  String address_name;
   String phone;
-  String address;
-  String siteURL;
-  String imageURL;
-  double? latitude;
-  double? longitude;
+  String place_url;
+  String road_address_name;
+  String x;
+  String y;
+  List<dynamic> tag_list;
+  String imageurl;
+  List<dynamic> timeList;
 
   Restaurant({
-    required this.rid,
-    required this.name,
-    required this.description,
-    required this.tagList,
+    required this.id,
+    required this.place_name,
+    required this.address_name,
     required this.phone,
-    required this.address,
-    required this.siteURL,
-    required this.imageURL,
-    this.latitude,
-    this.longitude,
+    required this.place_url,
+    required this.road_address_name,
+    required this.x,
+    required this.y,
+    required this.tag_list,
+    this.imageurl = '',
+    this.timeList = const [],
   });
 
   factory Restaurant.fromMap(Map<String, dynamic> map) {
     return Restaurant(
-      rid: map['rid'],
-      name: map['name'],
-      description: map['description'],
-      tagList: List<String>.from(map['tagList']),
+      id: map['id'],
+      place_name: map['place_name'],
+      address_name: map['address_name'],
       phone: map['phone'],
-      address: map['address'],
-      siteURL: map['siteURL'],
-      imageURL: map['imageURL'],
-      latitude: map['latitude'],
-      longitude: map['longitude'],
+      place_url: map['place_url'],
+      road_address_name: map['road_address_name'],
+      x: map['x'],
+      y: map['y'],
+      tag_list: map['category_name'].toString().split(' > '),
+      // imageurl: map['imageurl'],
+      // timeList: map['timeList'],
+    );
+  }
+
+  factory Restaurant.fromFirestore(Map<String, dynamic> map) {
+    return Restaurant(
+      id: map['id'],
+      place_name: map['place_name'],
+      address_name: map['address_name'],
+      phone: map['phone'],
+      place_url: map['place_url'],
+      road_address_name: map['road_address_name'],
+      x: map['x'],
+      y: map['y'],
+      tag_list: map['tag_list'],
+      imageurl: map['imageurl'],
+      timeList: map['timeList'],
     );
   }
 
   factory Restaurant.defaultRestaurant() {
     return Restaurant(
-      rid: '',
-      name: '',
-      description: '',
-      tagList: [],
+      id: '',
+      place_name: '',
+      address_name: '',
       phone: '',
-      address: '',
-      siteURL: '',
-      imageURL: '',
+      place_url: '',
+      road_address_name: '',
+      x: '',
+      y: '',
+      tag_list: [],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'rid': rid,
-      'name': name,
-      'description': description,
-      'tagList': tagList,
+      'id': id,
+      'place_name': place_name,
+      'address_name': address_name,
       'phone': phone,
-      'address': address,
-      'siteURL': siteURL,
-      'imageURL': imageURL,
-      'latitude': latitude,
-      'longitude': longitude,
+      'place_url': place_url,
+      'road_address_name': road_address_name,
+      'x': x,
+      'y': y,
+      'tag_list': tag_list,
+      'imageurl': imageurl,
+      'timeList': timeList,
     };
   }
 }

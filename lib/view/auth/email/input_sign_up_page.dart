@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/foundation.dart' as foundation;
+import 'package:snack_ads/util/text_style_manager.dart';
 import 'package:snack_ads/widget/snackbars/info_snackbar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../util/color_manager.dart';
 
 String nameErrorMsg = "사용불가한 이름입니다.";
@@ -48,6 +51,9 @@ class _InputSignUpPageState extends State<InputSignUpPage> {
   bool showLogo = true;
 
   bool isPasswordHidden = true;
+
+  bool checkbox1 = false;
+  bool checkbox2 = false;
 
   void _fetchKeyboardHeight() {
     keyboardHeightState = MediaQuery.of(context).viewInsets.bottom;
@@ -129,28 +135,43 @@ class _InputSignUpPageState extends State<InputSignUpPage> {
             FocusScope.of(context).unfocus();
           },
           child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: ColorManager.primary,
+              leading: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: SvgPicture.asset("assets/icons/ic_back_button.svg"),
+              ),
+              titleSpacing: 0,
+              title: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "이메일로 회원가입",
+                  style: TextStyleManager.textW600Medium,
+                ),
+              ),
+            ),
             resizeToAvoidBottomInset: false, // 이 부분을 추가해주세요.
-            backgroundColor: Colors.transparent,
+            backgroundColor: ColorManager.primary,
             body: Stack(
               children: [
                 Positioned.fill(
                   child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image:
-                            const AssetImage("assets/logo/app_logo_1152px.png"),
-                        fit: screenWidth > 600 ? BoxFit.cover : BoxFit.fill,
+                      // decoration: BoxDecoration(
+                      //   image: DecorationImage(
+                      //     image:
+                      //         const AssetImage("assets/logo/app_logo_1152px.png"),
+                      //     fit: screenWidth > 600 ? BoxFit.cover : BoxFit.fitWidth,
+                      //   ),
+                      // ),
                       ),
-                    ),
-                  ),
                 ),
                 _buildContent(screenWidthRatio, screenHeightRatio),
-                Align(
-                  alignment: const Alignment(0, -0.4),
-                  child: showLogo
-                      ? _buildLogo(screenWidthRatio, screenHeightRatio)
-                      : _buildLogoOpacity(screenWidthRatio, screenHeightRatio),
-                ),
+                // Align(
+                //   alignment: const Alignment(0, -0.4),
+                //   child: showLogo
+                //       ? _buildLogo(screenWidthRatio, screenHeightRatio)
+                //       : _buildLogoOpacity(screenWidthRatio, screenHeightRatio),
+                // ),
               ],
             ),
           ),
@@ -169,7 +190,7 @@ class _InputSignUpPageState extends State<InputSignUpPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                  padding: EdgeInsets.only(bottom: 240 * screenHeightRatio)),
+                  padding: EdgeInsets.only(bottom: 100 * screenHeightRatio)),
               const Padding(padding: EdgeInsets.only(bottom: 16)),
               _buildNameTextField(screenWidthRatio, screenHeightRatio),
               const Padding(padding: EdgeInsets.only(bottom: 16)),
@@ -181,6 +202,85 @@ class _InputSignUpPageState extends State<InputSignUpPage> {
               _buildPasswordConfirmTextField(
                   screenWidthRatio, screenHeightRatio),
               const Padding(padding: EdgeInsets.only(bottom: 10)),
+              // 이용약관 동의
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    checkbox1 = !checkbox1;
+                  });
+                },
+                child: SizedBox(
+                  width: 300,
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: checkbox1,
+                        visualDensity: VisualDensity.compact,
+                        onChanged: (selected) {},
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: Text(
+                          '이용약관 동의',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          launchUrl(Uri.parse(
+                              "https://puffy-vulcanodon-464.notion.site/a2ac8405fc4c4150b71732bffd636e2b"));
+                        },
+                        icon: const Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          size: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // 처리방침 동의
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    checkbox2 = !checkbox2;
+                  });
+                },
+                child: SizedBox(
+                  width: 300,
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: checkbox2,
+                        visualDensity: VisualDensity.compact,
+                        onChanged: (selected) {},
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: Text(
+                          '개인정보처리방침 동의',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          launchUrl(Uri.parse(
+                              "https://puffy-vulcanodon-464.notion.site/1-74b8620a68c340a88fc5faa47dc61c1a"));
+                        },
+                        icon: const Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          size: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
               _buildSignupButton(screenWidthRatio, screenHeightRatio),
               const Padding(padding: EdgeInsets.only(bottom: 10)),
             ],
@@ -190,7 +290,32 @@ class _InputSignUpPageState extends State<InputSignUpPage> {
     );
   }
 
-  Future<void> _loginHandler() async {}
+  Future<void> _loginHandler() async {
+    // 회원가입 처리
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text)
+          .then((value) {
+        if (value.user!.email == null) {
+        } else {
+          Navigator.pop(context);
+        }
+        return value;
+      });
+      // FirebaseAuth.instance.currentUser?.sendEmailVerification();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('the password provided is too weak');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      } else {
+        print('11111');
+      }
+    } catch (e) {
+      print('끝');
+    }
+  }
 
   bool _validateFormData() {
     final List<int> invalidFormIndex = [];
@@ -231,40 +356,41 @@ class _InputSignUpPageState extends State<InputSignUpPage> {
   InkWell _buildSignupButton(
       double screenWidthRatio, double screenHeightRatio) {
     return InkWell(
-        onTap: () async {
-          if (isSignInProcess) return;
-          final isValid = _validateFormData();
-          if (!isValid) return;
-          try {
-            isSignInProcess = true;
-            await _loginHandler(); // 함수 호출만 하고 async/await 사용하지 않음
-          } catch (e) {
-            if (!mounted) return;
-            infoSnackBar(context: context, msg: "회원가입에 실패하였습니다.");
-          } finally {
-            isSignInProcess = false;
-          }
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: ColorManager.white,
-            borderRadius: BorderRadius.circular(300 * screenWidthRatio / 1),
-          ),
-          width: 300,
-          height: 50,
-          child: const Center(
-            child: Text(
-              "회원가입",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: ColorManager.primary,
-                fontSize: 20,
-                fontFamily: 'NanumGothic',
-                fontWeight: FontWeight.w400,
-              ),
+      onTap: () async {
+        if (isSignInProcess) return;
+        final isValid = _validateFormData();
+        if (!isValid) return;
+        try {
+          isSignInProcess = true;
+          await _loginHandler(); // 함수 호출만 하고 async/await 사용하지 않음
+        } catch (e) {
+          if (!mounted) return;
+          infoSnackBar(context: context, msg: "회원가입에 실패하였습니다.");
+        } finally {
+          isSignInProcess = false;
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: ColorManager.white,
+          borderRadius: BorderRadius.circular(300 * screenWidthRatio / 1),
+        ),
+        width: 300,
+        height: 50,
+        child: const Center(
+          child: Text(
+            "회원가입",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: ColorManager.primary,
+              fontSize: 20,
+              fontFamily: 'NanumGothic',
+              fontWeight: FontWeight.w400,
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
 // Refactored _buildNameTextField

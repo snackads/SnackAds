@@ -28,6 +28,18 @@ class ShortForm {
     controller?.setLooping(true);
   }
 
+  factory ShortForm.fromMap(Map<String, dynamic> data) {
+    return ShortForm(
+      uploadedAt: data['uploadedAt'],
+      restaurantName: data['restaurantName'],
+      restaurantAddress: data['restaurantAddress'],
+      restaurantRid: data['restaurantRid'],
+      videoURL: data['videoURL'],
+      shortFormSid: data['shortFormSid'],
+      likes: data['likes'],
+    );
+  }
+
   factory ShortForm.defaultShortForm() {
     return ShortForm(
         uploadedAt: Timestamp.now(),

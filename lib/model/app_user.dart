@@ -5,9 +5,8 @@ class AppUser {
   String? photoURL;
   String? email;
   String? phone;
-  String? position;
-  List<String> uploadedShortForms = [];
-  List<String> likedShortForms = [];
+  List<String> uploadedShortForms = List.empty(growable: true);
+  List<String> likedShortForms = List.empty(growable: true);
 
   // private internal constructor
   AppUser._internal();
@@ -25,7 +24,6 @@ class AppUser {
     photoURL = data['photoURL'];
     email = data['email'];
     phone = data['phone'];
-    position = data['position'];
     uploadedShortForms = data['uploadedShortForms'];
     likedShortForms = data['likedShortForms'];
   }
@@ -38,7 +36,6 @@ class AppUser {
       'photoURL': photoURL,
       'email': email,
       'phone': phone,
-      'position': position,
       'uploadedShortForms': uploadedShortForms,
       'likedShortForms': likedShortForms,
     };
