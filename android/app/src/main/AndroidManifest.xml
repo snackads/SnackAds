@@ -5,6 +5,9 @@
         android:label="스낵에드"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="fsuoxt6t4k" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
