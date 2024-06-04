@@ -75,6 +75,62 @@ class _MapViewState extends State<MapView> {
     });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    final mapProvider = Provider.of<MapProvider>(context);
+
+    Widget _buildNaverMap() {
+      if (_currentPosition == null) {
+        return Center(child: CircularProgressIndicator()); // 현재 위치를 가져오는 중인 경우
+      }
+
+      return NaverMap(
+        key: mapProvider.mapKey,
+        options: NaverMapViewOptions(
+          locationButtonEnable: true,
+          initialCameraPosition: NCameraPosition(
+            target: NLatLng(
+                _currentPosition!.latitude, _currentPosition!.longitude),
+            zoom: 15,
+          ),
+        ),
+        onMapReady: (controller) {
+          mapControllerCompleter.complete(controller);
+          mapController = controller;
+
+          for (var restaurant in mapProvider.restaurants) {
+            final marker = NMarker(
+              id: restaurant['id'], // 식별을 위해 rid 사용
+              position: NLatLng(restaurant['x'], restaurant['y']),
+              caption: NOverlayCaption(text: restaurant['name']),
+
+              // onTap: (NMarker marker, Map<String, int> iconSize) async {
+              //   await mapProvider.fetchRestaurantDetails(restaurant['rid']);
+              // },
+            );
+
+            controller.addOverlay(marker);
+          }
+        },
+        onMapTapped: (NPoint point, NLatLng latLng) {
+          mapProvider.selectedRestaurant = null;
+          mapProvider.notifyListeners(); // 지도를 탭하면 카드 숨기기
+        },
+      );
+    }
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          _buildNaverMap(),
+          // _buildRestaurantCard(mapProvider), // 식당 정보 카드 추가
+        ],
+      ),
+    );
+  }
+}
+
+
   // 식당 정보 카드를 빌드하는 메서드
   // Widget _buildRestaurantCard(MapProvider mapProvider) {
   //   if (mapProvider.selectedRestaurant == null) {
@@ -129,59 +185,3 @@ class _MapViewState extends State<MapView> {
   //     ),
   //   );
   // }
-
-  @override
-  Widget build(BuildContext context) {
-    final mapProvider = Provider.of<MapProvider>(context);
-
-    Widget _buildNaverMap() {
-      if (_currentPosition == null) {
-        return Center(child: CircularProgressIndicator()); // 현재 위치를 가져오는 중인 경우
-      }
-
-      return NaverMap(
-        key: mapProvider.mapKey,
-        options: NaverMapViewOptions(
-          locationButtonEnable: true,
-          initialCameraPosition: NCameraPosition(
-            target: NLatLng(
-                _currentPosition!.latitude, _currentPosition!.longitude),
-            zoom: 15,
-          ),
-        ),
-        onMapReady: (controller) {
-          mapControllerCompleter.complete(controller);
-          mapController = controller;
-
-          for (var restaurant in mapProvider.restaurants) {
-            final marker = NMarker(
-              id: restaurant['rid'], // 식별을 위해 rid 사용
-              position:
-                  NLatLng(restaurant['latitude'], restaurant['longitude']),
-              caption: NOverlayCaption(text: restaurant['name']),
-
-              // onTap: (NMarker marker, Map<String, int> iconSize) async {
-              //   await mapProvider.fetchRestaurantDetails(restaurant['rid']);
-              // },
-            );
-
-            controller.addOverlay(marker);
-          }
-        },
-        onMapTapped: (NPoint point, NLatLng latLng) {
-          mapProvider.selectedRestaurant = null;
-          mapProvider.notifyListeners(); // 지도를 탭하면 카드 숨기기
-        },
-      );
-    }
-
-    return Scaffold(
-      body: Stack(
-        children: [
-          _buildNaverMap(),
-          // _buildRestaurantCard(mapProvider), // 식당 정보 카드 추가
-        ],
-      ),
-    );
-  }
-}

@@ -97,10 +97,19 @@ class MapProvider extends ChangeNotifier {
       restaurants = querySnapshot.docs.map((doc) {
         var data = doc.data() as Map<String, dynamic>;
         return {
-          'name': data['name'],
-          'latitude': data['latitude'],
-          'longitude': data['longitude'],
-          'rid': data['rid'], // 식별을 위해 rid 추가
+          'address_name': data['address_name'],
+          'id': data['id'],
+          'imageurl': data['imageurl'],
+          'phone': data['phone'],
+          'place_name': data['place_name'],
+          'place_url': data['place_url'],
+          'road_address_name': data['road_address_name'],
+          'x': data['x'],
+          'y': data['y']
+          // 'address_name': data['address_name'],
+          // 'address_name': data['address_name'],
+          // 'address_name': data['address_name'],
+          // 'address_name': data['address_name']
         };
       }).toList();
 
