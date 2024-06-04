@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:snack_ads/view/profile/restaurant_profile_view.dart';
 
 class FeedViewDescription extends StatelessWidget {
-  String videoRid;
+  final String videoRid;
   final String videoRestaurantName;
   final String videoRestaurantAddress;
-  FeedViewDescription({
+  const FeedViewDescription({
     super.key,
     required this.videoRid,
     required this.videoRestaurantName,
