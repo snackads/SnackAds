@@ -1,6 +1,7 @@
 # Snack Ads
 
-<img height="250" src="https://user-images.githubusercontent.com/41044154/139385796-bbbcb2d1-0f0b-48ea-a904-3de25813ae89.png"></img>
+<img height="250" src="https://github.com/snackads/SnackAds/assets/61077215/78b246f9-5391-4edb-9013-984ebed6e316"></img>
+
 
 > **_Shortform ads like snacks 🍟 🍿, Snack Ads_** <br/><br/>
 > **Development Period: 2024.05.02 ~ 2024.06.06**
@@ -45,15 +46,11 @@ It's a fun and easy to use short form ad app! 🍟🍿
 
 > 1️⃣ Shoot a simple shortform ad in under a minute!
 
-<img src="https://user-images.githubusercontent.com/41044154/144346994-e1917f58-aac2-494d-8e45-6d955de7c3cf.png" width=30%><img src="https://user-images.githubusercontent.com/41044154/144346991-f31db8b1-0ffe-4a5e-b9a6-bd681e84e8c0.png" width=30%>
-<img src="https://user-images.githubusercontent.com/41044154/144346988-2959fe08-ed02-4fd6-963e-276cb143a437.png" width=30%>
-<img src="https://user-images.githubusercontent.com/41044154/144346986-24cb4376-ad4e-4968-9889-3b47c1e38fb6.png" width=30%><img src="https://user-images.githubusercontent.com/41044154/144346983-091b49db-a8cb-4fce-9d46-9a06e8994f88.png" width=30%>
-<img src="https://user-images.githubusercontent.com/41044154/144346969-d2743fe7-dca1-45d5-b426-cbe545e90177.png" width=30%>
+<img src="https://user-images.githubusercontent.com/41044154/144346994-e1917f58-aac2-494d-8e45-6d955de7c3cf.png" width=30%><img src="https://user-images.githubusercontent.com/41044154/144346988-2959fe08-ed02-4fd6-963e-276cb143a437.png" width=30%><img src="https://user-images.githubusercontent.com/41044154/144346986-24cb4376-ad4e-4968-9889-3b47c1e38fb6.png" width=30%>
 
 > 📍 Check out the map to see what restaurants are near you!
 
-<img src="https://user-images.githubusercontent.com/41044154/144347899-bab1eae0-a873-456e-9867-f2648195e5e2.png" width=30%><img src="https://user-images.githubusercontent.com/41044154/144347895-6e9930ae-29ae-4d49-8a12-9257841f8223.png" width=30%>
-<img src="https://user-images.githubusercontent.com/41044154/144347883-2a3b6a40-7625-45b5-9bf6-626d31c37aa7.png" width=30%>
+<img src="https://user-images.githubusercontent.com/41044154/144347899-bab1eae0-a873-456e-9867-f2648195e5e2.png" width=30%><img src="https://user-images.githubusercontent.com/41044154/144347883-2a3b6a40-7625-45b5-9bf6-626d31c37aa7.png" width=30%>
 
 > 👍 If there's a restaurant you want to try, give it a thumbs up!
 
@@ -75,7 +72,7 @@ It's a fun and easy to use short form ad app! 🍟🍿
 
 ### ⏺ MVC Architecture/Design Pattern
 
-<img width="994" alt="%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202021-11-20%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%2010 40 56" src="https://user-images.githubusercontent.com/46087477/145963925-dc66129a-b3e3-4fe8-827c-6ae176e8e610.png">
+<img width="994" alt="2024-06-06_05-12-06" src="https://github.com/snackads/SnackAds/assets/61077215/fe7c8d02-4e0d-4b09-a825-9ee0bdeb54e3">
 
 > **MVC Pattern Description**
 
