@@ -50,7 +50,7 @@ It's a fun and easy to use short form ad app! 🍟🍿
 
 > 📍 Check out the map to see what restaurants are near you!
 
-<img src="https://github.com/nth221/videx/assets/64348852/101dbd88-1e92-49ef-9271-cfa4f1b839c4" width=30%> <img src="https://user-images.githubusercontent.com/41044154/144347883-2a3b6a40-7625-45b5-9bf6-626d31c37aa7.png" width=30%>
+<img src="https://github.com/nth221/videx/assets/64348852/101dbd88-1e92-49ef-9271-cfa4f1b839c4" width=30%>
 
 > 👍 If there's a restaurant you want to try, give it a thumbs up!
 
