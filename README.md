@@ -41,8 +41,7 @@ It's a fun and easy to use short form ad app! 🍟🍿
 
 > 🔑 You can sign up and log in via Google Sign-in and email!
 
-<img src="https://user-images.githubusercontent.com/41044154/144353747-ba7d89bc-9385-4e12-ad01-26b10748d32d.png" width=30%><img src="https://user-images.githubusercontent.com/41044154/144353744-529629b3-ba00-4ac8-bc71-cf24adfcd17e.png" width=30%>
-<img src="https://user-images.githubusercontent.com/41044154/144353735-ed74ea31-55f7-4ee9-9f77-c24d782e42f2.png" width=30%>
+<img src="https://github.com/nth221/videx/assets/64348852/0138fc52-d0f8-488e-a2cd-ccc77b74a17b" width=30%><img src="https://github.com/nth221/videx/assets/64348852/28189d4f-bea6-49ff-b0fb-9a4bf505c416" width=30%> <img src="https://github.com/nth221/videx/assets/64348852/41593a3e-718c-466a-8476-8db9cf90dc0e" width=30%>
 
 > 1️⃣ Shoot a simple shortform ad in under a minute!
 
