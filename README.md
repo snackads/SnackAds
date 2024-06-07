@@ -53,8 +53,7 @@ It's a fun and easy to use short form ad app! 🍟🍿
 
 > 👍 If there's a restaurant you want to try, give it a thumbs up!
 
-<img src="https://user-images.githubusercontent.com/41044154/144348144-b5065261-6f42-479d-a067-b2ae5273e122.png" width=23%><img src="https://user-images.githubusercontent.com/41044154/144348142-93849c54-6630-4377-b27a-259d70334aba.png" width=23%>
-<img src="https://user-images.githubusercontent.com/41044154/144348136-237c5318-d98e-48e5-8efc-434afeb0c037.png" width=23%><img src="https://user-images.githubusercontent.com/41044154/144348126-31ce1ad8-4ba2-496b-b791-e0dab4604de3.png" width=23%>
+<img src="https://github.com/nth221/videx/assets/64348852/36525b76-8ece-46cf-af58-9d105e9d2b0a" width=23%> <img src="https://github.com/nth221/videx/assets/64348852/307d61b4-cf1f-41f2-9e63-69978d68324e" width=23%> <img src="https://user-images.githubusercontent.com/41044154/144348136-237c5318-d98e-48e5-8efc-434afeb0c037.png" width=23%> <img src="https://user-images.githubusercontent.com/41044154/144348126-31ce1ad8-4ba2-496b-b791-e0dab4604de3.png" width=23%>
 
 > 🤝 If you have a favorite restaurant you'd like to try with your friends, share it!
 
