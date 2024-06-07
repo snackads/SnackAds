@@ -61,8 +61,7 @@ It's a fun and easy to use short form ad app! 🍟🍿
 
 > 👤 You can see the videos you've uploaded and the videos you've liked on Profile!
 
-<img src="https://github.com/nth221/videx/assets/64348852/307d61b4-cf1f-41f2-9e63-69978d68324e" width=30%><img src="https://user-images.githubusercontent.com/41044154/144354040-71b94fce-d2b1-49b8-ae62-208b4c13f277.png" width=30%>
-<img src="https://user-images.githubusercontent.com/41044154/144354050-3ddd21b3-bfef-4c20-98ab-3050d60c7719.png" width=30%>
+<img src="https://github.com/nth221/videx/assets/64348852/307d61b4-cf1f-41f2-9e63-69978d68324e" width=30%>
 
 <br/>
 
