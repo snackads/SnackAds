@@ -54,7 +54,7 @@ It's a fun and easy to use short form ad app! 🍟🍿
 
 > 👍 If there's a restaurant you want to try, give it a thumbs up!
 
-<img src="https://github.com/nth221/videx/assets/64348852/36525b76-8ece-46cf-af58-9d105e9d2b0a" width=23%>
+<img src="https://github.com/nth221/videx/assets/64348852/36525b76-8ece-46cf-af58-9d105e9d2b0a" width=30%>
 
 > 🤝 If you have a favorite restaurant you'd like to try with your friends, share it!
 
