@@ -53,11 +53,11 @@ It's a fun and easy to use short form ad app! 🍟🍿
 
 > 👍 If there's a restaurant you want to try, give it a thumbs up!
 
-<img src="https://github.com/nth221/videx/assets/64348852/36525b76-8ece-46cf-af58-9d105e9d2b0a" width=23%> <img src="https://github.com/nth221/videx/assets/64348852/307d61b4-cf1f-41f2-9e63-69978d68324e" width=23%> <img src="https://user-images.githubusercontent.com/41044154/144348136-237c5318-d98e-48e5-8efc-434afeb0c037.png" width=23%> <img src="https://user-images.githubusercontent.com/41044154/144348126-31ce1ad8-4ba2-496b-b791-e0dab4604de3.png" width=23%>
+<img src="https://github.com/nth221/videx/assets/64348852/36525b76-8ece-46cf-af58-9d105e9d2b0a" width=23%>
 
 > 🤝 If you have a favorite restaurant you'd like to try with your friends, share it!
 
-<img src="https://user-images.githubusercontent.com/41044154/144348644-8154ec56-b467-40f4-af09-46196c67f4d9.png" width=30%><img src="https://user-images.githubusercontent.com/41044154/144348635-e3cc48b8-00a9-4a61-ab61-0e63d97eff57.png" width=30%>
+<img src="https://github.com/nth221/videx/assets/64348852/bb69d390-8185-49d5-bd2f-dbec84cb229a" width=30%>
 
 > 👤 You can see the videos you've uploaded and the videos you've liked on Profile!
 
