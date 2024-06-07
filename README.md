@@ -47,19 +47,19 @@ It's a fun and easy to use short form ad app! 🍟🍿
 > 1️⃣ Shoot a simple shortform ad in under a minute!
 
 <img src="https://github.com/snackads/SnackAds/assets/64348852/87400302-c3a8-4d7c-acc5-452ddd958667" width="30%"> <img src="https://github.com/nth221/videx/assets/64348852/e1cdc9b2-d47c-41ea-aca7-a83e03afc129" width=30%> <img src="https://github.com/nth221/videx/assets/64348852/d7f86f6a-3b04-4154-b3fb-a09bc785d715" width="30%">
-<br/>
+
 > 📍 Check out the map to see what restaurants are near you!
 
 <img src="https://user-images.githubusercontent.com/41044154/144347899-bab1eae0-a873-456e-9867-f2648195e5e2.png" width=30%><img src="https://user-images.githubusercontent.com/41044154/144347883-2a3b6a40-7625-45b5-9bf6-626d31c37aa7.png" width=30%>
-<br/>
+
 > 👍 If there's a restaurant you want to try, give it a thumbs up!
 
 <img src="https://github.com/nth221/videx/assets/64348852/36525b76-8ece-46cf-af58-9d105e9d2b0a" width=23%>
-<br/>
+
 > 🤝 If you have a favorite restaurant you'd like to try with your friends, share it!
 
 <img src="https://github.com/nth221/videx/assets/64348852/bb69d390-8185-49d5-bd2f-dbec84cb229a" width=30%>
-<br/>
+
 > 👤 You can see the videos you've uploaded and the videos you've liked on Profile!
 
 <img src="https://github.com/nth221/videx/assets/64348852/307d61b4-cf1f-41f2-9e63-69978d68324e" width=30%>
