@@ -45,7 +45,7 @@ It's a fun and easy to use short form ad app! 🍟🍿
 
 > 1️⃣ Shoot a simple shortform ad in under a minute!
 
-<img src="https://github.com/snackads/SnackAds/assets/64348852/87400302-c3a8-4d7c-acc5-452ddd958667" width="30%"> <img src="https://github.com/nth221/videx/assets/64348852/e1cdc9b2-d47c-41ea-aca7-a83e03afc129" width=30%> 
+<img src="https://github.com/snackads/SnackAds/assets/64348852/87400302-c3a8-4d7c-acc5-452ddd958667" width="30%"> <img src="https://github.com/nth221/videx/assets/64348852/e1cdc9b2-d47c-41ea-aca7-a83e03afc129" width=30%> <img src="https://github.com/nth221/videx/assets/64348852/d7f86f6a-3b04-4154-b3fb-a09bc785d715" width="30%">
 
 > 📍 Check out the map to see what restaurants are near you!
 
